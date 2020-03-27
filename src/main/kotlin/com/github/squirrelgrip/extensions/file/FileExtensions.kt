@@ -1,4 +1,4 @@
-package com.github.squirrelgrip.extensions
+package com.github.squirrelgrip.extensions.file
 
 import java.io.File
 import java.io.FileOutputStream
