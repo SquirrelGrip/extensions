@@ -8,7 +8,10 @@
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>A collection of useful kotlin extensions</description>
+    <url>https://github.com/SquirrelGrip/extension</url>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -23,9 +26,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/SquirrelGrip/scientist-yxorp.git</connection>
-        <developerConnection>scm:git:https://github.com/SquirrelGrip/scientist-yxorp.git</developerConnection>
-        <url>https://github.com/SquirrelGrip/scientist-yxorp</url>
+        <connection>scm:git:https://github.com/SquirrelGrip/extension.git</connection>
+        <developerConnection>scm:git:https://github.com/SquirrelGrip/extension.git</developerConnection>
+        <url>${project.url}</url>
     </scm>
 
     <properties>
