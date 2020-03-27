@@ -38,7 +38,7 @@
                         <enabled>false</enabled>
                     </releases>
                 </pluginRepository>
-            </pluginRepositories>
+             </pluginRepositories>
         </profile>
     </profiles>
 </settings>
