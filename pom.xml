@@ -8,6 +8,7 @@
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <description>A collection of useful kotlin extensions</description>
     <licenses>
         <license>
             <name>MIT License</name>
