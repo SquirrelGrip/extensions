@@ -4,8 +4,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.FileWriter
 
-fun File.toWriter() = FileWriter(this)
+inline fun File.toWriter() = FileWriter(this)
 
-fun File.toStream() = FileOutputStream(this)
+inline fun File.toStream() = FileOutputStream(this)
 
 
