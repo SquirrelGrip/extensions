@@ -1,8 +1,6 @@
 package com.github.squirrelgrip.extensions.file
 
-import java.io.File
-import java.io.FileOutputStream
-import java.io.FileWriter
+import java.io.*
 
 /**
  * Creates a FileWriter for the given File
@@ -12,6 +10,16 @@ fun File.toWriter() = FileWriter(this)
 /**
  * Creates a FileOutputStream for the given File
  */
-fun File.toStream() = FileOutputStream(this)
+fun File.toOutputStream() = FileOutputStream(this)
+
+/**
+ * Creates a FileReader for the given File
+ */
+fun File.toReader() = FileReader(this)
+
+/**
+ * Creates a FileInputStream for the given File
+ */
+fun File.toInputStream() = FileInputStream(this)
 
 
