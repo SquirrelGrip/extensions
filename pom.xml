@@ -10,7 +10,7 @@
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A collection of useful kotlin extensions</description>
-    <url>https://github.com/SquirrelGrip/extension</url>
+    <url>https://github.com/SquirrelGrip/extensions</url>
 
     <licenses>
         <license>
@@ -26,8 +26,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/SquirrelGrip/extension.git</connection>
-        <developerConnection>scm:git:https://github.com/SquirrelGrip/extension.git</developerConnection>
+        <connection>scm:git:https://github.com/SquirrelGrip/extensions.git</connection>
+        <developerConnection>scm:git:https://github.com/SquirrelGrip/extensions.git</developerConnection>
         <url>${project.url}</url>
     </scm>
 
