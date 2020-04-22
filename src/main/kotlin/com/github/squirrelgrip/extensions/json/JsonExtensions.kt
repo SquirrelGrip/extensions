@@ -14,7 +14,6 @@ object Json {
  * Converts Any to a JSON String representation
  */
 fun Any.toJson(): String = Json.objectMapper.writeValueAsString(this)
-
 fun Any.toJson(file: File) = Json.objectMapper.writeValue(file, this)
 fun Any.toJson(outputStream: OutputStream) = Json.objectMapper.writeValue(outputStream, this)
 fun Any.toJson(writer: Writer) = Json.objectMapper.writeValue(writer, this)
@@ -28,3 +27,12 @@ inline fun <reified T> ByteArray.toInstance(): T = Json.objectMapper.readValue(t
 inline fun <reified T> DataInput.toInstance(): T = Json.objectMapper.readValue(this, T::class.java)
 inline fun <reified T> JsonParser.toInstance(): T = Json.objectMapper.readValue(this, T::class.java)
 inline fun <reified T> File.toInstance(): T = Json.objectMapper.readValue(this, T::class.java)
+
+fun String.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
+fun InputStream.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
+fun Reader.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
+fun URL.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
+fun ByteArray.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
+fun ByteArray.toJsonNode(offset: Int, length: Int): JsonNode = Json.objectMapper.readTree(this, offset, length)
+fun JsonParser.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
+fun File.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
