@@ -1,25 +1,28 @@
 package com.github.squirrelgrip.extensions.map
 
 /**
+ * Reverses a List<Pair<K, V>> into a Map<V, List<K>>
+ * @return reversed Map<V, List<K>>
+ */
+fun <K, V> Iterable<Pair<K, V>>.reverse(): Map<V, List<K>> =
+    groupBy { it.second }.mapValues { (_, value) ->
+        value.map {
+            it.first
+        }
+    }
+
+/**
  * Reverses a map of K to V into a map of V to List<K>
  * @return reversed Map<V, List<K>>
  */
-fun <K, V> Map<K, V>.reverseMany(): Map<V, List<K>> =
-    toList()
-        .groupBy { it.second }
-        .mapValues { (_, value) ->
-            value.map {
-                it.first
-            }
-        }
+fun <K, V> Map<K, V>.reverse(): Map<V, List<K>> =
+    toList().reverse()
 
 /**
- * Reverse a map K to V into a map of K to V
- *
- * WARNING: This assumes a 1 to 1 mapping of keys to values, otherwise it will drop elements.
- * If you have 1 to N, use reverseMany() instead.
- *
- * @return reverse Map<K, V>
+ * Reverses a map of K to Iterable<V> into a map of V to List<K>
+ * @return reversed Map<V, List<K>>
  */
-fun <K, V> Map<K, V>.reverse(): Map<V, K> =
-    entries.map { (k, v) ->  v to k}.toMap()
+fun <K, V> Map<K, Iterable<V>>.reverseWithCollection(): Map<V, List<K>> =
+    entries.flatMap { e ->
+        e.value.map { e.key to it }
+    }.reverse()
