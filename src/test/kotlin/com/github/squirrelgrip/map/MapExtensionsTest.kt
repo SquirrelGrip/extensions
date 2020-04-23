@@ -1,7 +1,7 @@
 package com.github.squirrelgrip.map
 
-import com.github.squirrelgrip.extensions.map.reverse
-import com.github.squirrelgrip.extensions.map.reverseWithCollection
+import com.github.squirrelgrip.extensions.map.swap
+import com.github.squirrelgrip.extensions.map.swapWithCollection
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,7 +13,7 @@ class MapExtensionsTest {
             2 to "BBB",
             3 to "BBB"
         )
-        assertThat(map.reverse()).isEqualTo(
+        assertThat(map.swap()).isEqualTo(
             mapOf(
                 "AAA" to listOf(1),
                 "BBB" to listOf(2, 3)
@@ -29,7 +29,7 @@ class MapExtensionsTest {
             3 to listOf("AAA", "BBB"),
             4 to listOf("CCC", "BBB")
         )
-        assertThat(map.reverseWithCollection()).isEqualTo(
+        assertThat(map.swapWithCollection()).isEqualTo(
             mapOf(
                 "AAA" to listOf(1, 3),
                 "BBB" to listOf(2, 3, 4),
@@ -44,7 +44,7 @@ class MapExtensionsTest {
             1 to "AAA",
             2 to "BBB"
         )
-        assertThat(map.reverse()).isEqualTo(
+        assertThat(map.swap()).isEqualTo(
             mapOf(
                 "AAA" to listOf(1),
                 "BBB" to listOf(2)
