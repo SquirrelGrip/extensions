@@ -1,5 +1,6 @@
 package com.github.squirrelgrip.extensions.map
 
+
 /**
  * Reverses a List<Pair<K, V>> into a Map<V, List<K>>
  * @return reversed Map<V, List<K>>
@@ -26,3 +27,23 @@ fun <K, V> Map<K, Iterable<V>>.swapWithCollection(): Map<V, List<K>> =
     entries.flatMap { e ->
         e.value.map { e.key to it }
     }.swap()
+
+fun Map<String, *>.flatten(): Map<String, *> {
+    return toList().flatMap { it.flatten() }.toMap()
+}
+
+fun Pair<String, Any?>.flatten(): List<Pair<String, *>> {
+    if (second is Map<*, *>) {
+        val map = second as Map<*, *>
+        return map.map {
+            "$first/${it.key}" to it.value
+        }.flatMap { it.flatten() }
+    }
+    if (second is List<*>) {
+        val list = second as List<*>
+        return list.indices.map { it ->
+            "$first/$it" to list[it]
+        }.flatMap { it.flatten() }
+    }
+    return listOf(this)
+}
