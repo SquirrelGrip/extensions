@@ -182,13 +182,14 @@
                 <configuration>
                     <username>${env.GIT_USER}</username>
                     <password>${env.GIT_TOKEN}</password>
+                    <allowSnapshots>false</allowSnapshots>
+                    <allowUntracked>true</allowUntracked>
                     <pullMaster>true</pullMaster>
                     <pullDevelop>true</pullDevelop>
                     <pushReleases>true</pushReleases>
                     <pushHotfixes>true</pushHotfixes>
                     <scmCommentPrefix>(CI):</scmCommentPrefix>
                     <useReleaseProfile>false</useReleaseProfile>
-                    <allowUntracked>true</allowUntracked>
                 </configuration>
             </plugin>
             <plugin>
@@ -267,22 +268,6 @@
                         <version>1.0.0</version>
                         <configuration combine.self="append">
                             <allowSnapshots>true</allowSnapshots>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>gitflowFinish</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.manamind.jgitflow</groupId>
-                        <artifactId>jgitflow-maven-plugin</artifactId>
-                        <version>1.0.0</version>
-                        <configuration combine.self="append">
-                            <allowSnapshots>false</allowSnapshots>
-                            <goals>clean deploy -Prelease</goals>
                         </configuration>
                     </plugin>
                 </plugins>
