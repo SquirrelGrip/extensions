@@ -1,11 +1,14 @@
 package com.github.squirrelgrip.extensions.json
 
 import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.*
 import java.net.URL
+import java.util.HashMap
+
 
 object Json {
     val objectMapper = ObjectMapper().registerModule(KotlinModule())
@@ -37,3 +40,6 @@ fun ByteArray.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
 fun ByteArray.toJsonNode(offset: Int, length: Int): JsonNode = Json.objectMapper.readTree(this, offset, length)
 fun JsonParser.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
 fun File.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
+
+fun Any.convertToMap(): Map<String, *> =
+    Json.objectMapper.convertValue(this, object : TypeReference<HashMap<String, *>>() {}).toMap()
