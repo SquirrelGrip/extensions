@@ -1,8 +1,6 @@
 package com.github.squirrelgrip.map
 
-import com.github.squirrelgrip.extensions.map.flatten
-import com.github.squirrelgrip.extensions.map.swap
-import com.github.squirrelgrip.extensions.map.swapWithCollection
+import com.github.squirrelgrip.extensions.map.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -62,4 +60,5 @@ class MapExtensionsTest {
         assertThat(mapOf("1" to listOf(mapOf("A" to "AAA", "B" to "BBB"), mapOf("C" to "CCC"))).flatten()).isEqualTo(mapOf("1/0/A" to "AAA", "1/0/B" to "BBB", "1/1/C" to "CCC"))
         assertThat(mapOf("1" to mapOf("A" to "AAA", "B" to "BBB")).flatten()).isEqualTo(mapOf("1/A" to "AAA", "1/B" to "BBB"))
     }
+
 }

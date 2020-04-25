@@ -1,5 +1,10 @@
 package com.github.squirrelgrip.extensions.map
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.github.squirrelgrip.extensions.json.Json
+import java.util.HashMap
+import java.util.stream.Collectors.toMap
+
 
 /**
  * Reverses a List<Pair<K, V>> into a Map<V, List<K>>
@@ -28,11 +33,14 @@ fun <K, V> Map<K, Iterable<V>>.swapWithCollection(): Map<V, List<K>> =
         e.value.map { e.key to it }
     }.swap()
 
+/**
+ * Flattens a deep Map into a Map of paths to values
+ */
 fun Map<String, *>.flatten(): Map<String, *> {
     return toList().flatMap { it.flatten() }.toMap()
 }
 
-fun Pair<String, Any?>.flatten(): List<Pair<String, *>> {
+fun Pair<String, *>.flatten(): List<Pair<String, *>> {
     if (second is Map<*, *>) {
         val map = second as Map<*, *>
         return map.map {
