@@ -1,9 +1,4 @@
-package com.github.squirrelgrip.extensions.map
-
-import com.fasterxml.jackson.core.type.TypeReference
-import com.github.squirrelgrip.extensions.json.Json
-import java.util.HashMap
-import java.util.stream.Collectors.toMap
+package com.github.squirrelgrip.extension.map
 
 
 /**

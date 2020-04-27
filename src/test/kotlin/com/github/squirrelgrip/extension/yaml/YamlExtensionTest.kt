@@ -1,9 +1,6 @@
-package com.github.squirrelgrip.yaml
+package com.github.squirrelgrip.extension.yaml
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.squirrelgrip.Sample
-import com.github.squirrelgrip.extensions.yaml.toInstance
-import com.github.squirrelgrip.extensions.yaml.toYaml
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

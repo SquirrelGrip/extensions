@@ -1,4 +1,4 @@
-package com.github.squirrelgrip.extensions.time
+package com.github.squirrelgrip.extension.time
 
 import java.time.*
 import java.util.*

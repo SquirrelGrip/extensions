@@ -1,4 +1,4 @@
-package com.github.squirrelgrip.extensions.file
+package com.github.squirrelgrip.extension.file
 
 import java.io.*
 

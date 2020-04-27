@@ -1,4 +1,4 @@
-package com.github.squirrelgrip.extensions.json
+package com.github.squirrelgrip.extension.json
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.type.TypeReference
