@@ -1,8 +1,6 @@
-package com.github.squirrelgrip.xml
+package com.github.squirrelgrip.extension.xml
 
 import com.github.squirrelgrip.Sample
-import com.github.squirrelgrip.extensions.xml.toInstance
-import com.github.squirrelgrip.extensions.xml.toXml
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.Test
 

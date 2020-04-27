@@ -1,8 +1,7 @@
-package com.github.squirrelgrip.extensions.io
+package com.github.squirrelgrip.extension.io
 
 import java.io.*
 import java.nio.charset.Charset
-import javax.swing.text.ChangedCharSetException
 
 fun Reader.toBufferedReader(): BufferedReader {
     return BufferedReader(this)

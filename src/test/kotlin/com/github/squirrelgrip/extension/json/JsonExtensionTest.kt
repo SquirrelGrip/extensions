@@ -1,10 +1,7 @@
-package com.github.squirrelgrip.json
+package com.github.squirrelgrip.extension.json
 
 import com.github.squirrelgrip.Sample
-import com.github.squirrelgrip.extensions.json.convertToMap
-import com.github.squirrelgrip.extensions.json.toInstance
-import com.github.squirrelgrip.extensions.json.toJson
-import com.github.squirrelgrip.extensions.map.flatten
+import com.github.squirrelgrip.extension.map.flatten
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.Test
 

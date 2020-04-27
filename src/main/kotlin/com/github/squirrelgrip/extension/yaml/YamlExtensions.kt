@@ -1,4 +1,4 @@
-package com.github.squirrelgrip.extensions.yaml
+package com.github.squirrelgrip.extension.yaml
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory

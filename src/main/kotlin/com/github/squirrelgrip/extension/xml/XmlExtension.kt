@@ -1,4 +1,4 @@
-package com.github.squirrelgrip.extensions.xml
+package com.github.squirrelgrip.extension.xml
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import java.io.*

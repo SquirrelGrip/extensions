@@ -1,6 +1,5 @@
-package com.github.squirrelgrip.map
+package com.github.squirrelgrip.extension.map
 
-import com.github.squirrelgrip.extensions.map.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
