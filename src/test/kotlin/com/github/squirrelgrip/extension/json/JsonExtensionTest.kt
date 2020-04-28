@@ -2,6 +2,7 @@ package com.github.squirrelgrip.extension.json
 
 import com.github.squirrelgrip.Sample
 import com.github.squirrelgrip.extension.map.flatten
+import jdk.internal.org.objectweb.asm.TypeReference
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.Test
 
@@ -16,5 +17,11 @@ class JsonExtensionTest {
     fun `toJson`() {
         assertThat(Sample().toJson()).isEqualTo("""{"v":0,"s":"A Simple String","m":{"a":"AAA"},"l":["1","AAA"]}""")
         assertThat("""{"v":0,"s":"A Simple String","m":{"a":"AAA"},"l":["1","AAA"]}""".toInstance<Sample>()).isEqualTo(Sample())
+    }
+
+    @Test
+    fun `toInstanceList`() {
+        assertThat(listOf(Sample(), Sample()).toJson()).isEqualTo("[{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]},{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]}]")
+        assertThat("[{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]},{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]}]".toInstanceList<Sample>()).isEqualTo(listOf(Sample(), Sample()))
     }
 }
