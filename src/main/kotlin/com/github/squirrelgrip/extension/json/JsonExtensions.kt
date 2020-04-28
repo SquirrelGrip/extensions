@@ -32,6 +32,15 @@ inline fun <reified T> DataInput.toInstance(): T = Json.objectMapper.readValue(t
 inline fun <reified T> JsonParser.toInstance(): T = Json.objectMapper.readValue(this, T::class.java)
 inline fun <reified T> File.toInstance(): T = Json.objectMapper.readValue(this, T::class.java)
 
+inline fun <reified T> String.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+inline fun <reified T> InputStream.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+inline fun <reified T> Reader.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+inline fun <reified T> URL.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+inline fun <reified T> ByteArray.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+inline fun <reified T> DataInput.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+inline fun <reified T> JsonParser.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+inline fun <reified T> File.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+
 fun String.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
 fun InputStream.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
 fun Reader.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
