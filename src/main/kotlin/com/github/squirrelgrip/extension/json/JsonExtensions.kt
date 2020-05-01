@@ -1,17 +1,40 @@
 package com.github.squirrelgrip.extension.json
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.*
 import java.net.URL
-import java.util.HashMap
+import java.util.*
 
+interface ObjectMapperFactory {
+    fun getObjectMapper(): ObjectMapper {
+        return ObjectMapper()
+            .registerModule(KotlinModule())
+            .registerModule(Jdk8Module()).apply {
+                addMixIn(Throwable::class.java, Json.ThrowableMixIn::class.java)
+            }
+    }
+}
 
 object Json {
-    val objectMapper = ObjectMapper().registerModule(KotlinModule())
+    @JsonIgnoreProperties("stackTrace")
+    internal class ThrowableMixIn @JsonCreator constructor(@JsonProperty("message") message: String?) :
+        Throwable(message)
+
+    val objectMapper: ObjectMapper by lazy {
+        val factoryList = ServiceLoader.load(ObjectMapperFactory::class.java).toList()
+        if (factoryList.size > 1) {
+            throw RuntimeException("Cannot have more than one ObjectMapperFactory declared.")
+        }
+        (factoryList.firstOrNull() ?: (object : ObjectMapperFactory {})).getObjectMapper()
+    }
 }
 
 /**
@@ -32,14 +55,17 @@ inline fun <reified T> DataInput.toInstance(): T = Json.objectMapper.readValue(t
 inline fun <reified T> JsonParser.toInstance(): T = Json.objectMapper.readValue(this, T::class.java)
 inline fun <reified T> File.toInstance(): T = Json.objectMapper.readValue(this, T::class.java)
 
-inline fun <reified T> String.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
-inline fun <reified T> InputStream.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
-inline fun <reified T> Reader.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
-inline fun <reified T> URL.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
-inline fun <reified T> ByteArray.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
-inline fun <reified T> DataInput.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
-inline fun <reified T> JsonParser.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
-inline fun <reified T> File.toInstanceList(): List<T> = Json.objectMapper.readValue(this, Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java))
+inline fun <reified T> listType() =
+    Json.objectMapper.typeFactory.constructCollectionType(List::class.java, T::class.java)
+
+inline fun <reified T> String.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
+inline fun <reified T> InputStream.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
+inline fun <reified T> Reader.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
+inline fun <reified T> URL.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
+inline fun <reified T> ByteArray.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
+inline fun <reified T> DataInput.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
+inline fun <reified T> JsonParser.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
+inline fun <reified T> File.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
 
 fun String.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
 fun InputStream.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
