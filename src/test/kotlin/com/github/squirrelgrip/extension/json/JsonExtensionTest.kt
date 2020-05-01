@@ -24,4 +24,14 @@ class JsonExtensionTest {
         assertThat(listOf(Sample(), Sample()).toJson()).isEqualTo("[{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]},{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]}]")
         assertThat("[{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]},{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]}]".toInstanceList<Sample>()).isEqualTo(listOf(Sample(), Sample()))
     }
+
+    @Test
+    fun `exception to json`() {
+        assertThat(Exception("Message").toJson()).isEqualTo("{\"cause\":null,\"message\":\"Message\",\"localizedMessage\":\"Message\",\"suppressed\":[]}")
+        val exception =
+            "{\"cause\":null,\"message\":\"Message\",\"localizedMessage\":\"Message\",\"suppressed\":[]}".toInstance<Exception>()
+        assertThat(exception.message).isEqualTo(Exception("Message").message)
+        assertThat(exception.cause).isEqualTo(Exception("Message").cause)
+        assertThat(exception.localizedMessage).isEqualTo(Exception("Message").localizedMessage)
+    }
 }
