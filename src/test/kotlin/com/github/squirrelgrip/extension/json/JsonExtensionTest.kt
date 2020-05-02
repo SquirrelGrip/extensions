@@ -8,19 +8,19 @@ import org.junit.jupiter.api.Test
 
 class JsonExtensionTest {
     @Test
-    fun `Any convertToMap`() {
+    fun convertToMap() {
         assertThat(Sample().convertToMap().flatten()).isEqualTo(mapOf("m/a" to "AAA", "s" to "A Simple String", "v" to 0, "l/0" to "1","l/1" to "AAA"))
         assertThat(Sample().convertToMap()).isEqualTo(mapOf("m" to mapOf("a" to "AAA"), "s" to "A Simple String", "v" to 0, "l" to listOf("1", "AAA")))
     }
 
     @Test
-    fun `toJson`() {
+    fun toJson() {
         assertThat(Sample().toJson()).isEqualTo("""{"v":0,"s":"A Simple String","m":{"a":"AAA"},"l":["1","AAA"]}""")
         assertThat("""{"v":0,"s":"A Simple String","m":{"a":"AAA"},"l":["1","AAA"]}""".toInstance<Sample>()).isEqualTo(Sample())
     }
 
     @Test
-    fun `toInstanceList`() {
+    fun toInstanceList() {
         assertThat(listOf(Sample(), Sample()).toJson()).isEqualTo("[{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]},{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]}]")
         assertThat("[{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]},{\"v\":0,\"s\":\"A Simple String\",\"m\":{\"a\":\"AAA\"},\"l\":[\"1\",\"AAA\"]}]".toInstanceList<Sample>()).isEqualTo(listOf(Sample(), Sample()))
     }
