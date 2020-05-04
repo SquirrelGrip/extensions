@@ -5,6 +5,7 @@ import com.github.squirrelgrip.extension.map.flatten
 import jdk.internal.org.objectweb.asm.TypeReference
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class JsonExtensionTest {
     @Test
@@ -33,5 +34,12 @@ class JsonExtensionTest {
         assertThat(exception.message).isEqualTo(Exception("Message").message)
         assertThat(exception.cause).isEqualTo(Exception("Message").cause)
         assertThat(exception.localizedMessage).isEqualTo(Exception("Message").localizedMessage)
+    }
+
+    @Test
+    fun `write Instant`() {
+        val now = Instant.now()
+        assertThat(now.toJson()).isEqualTo(""""${now.toString()}"""")
+
     }
 }
