@@ -7,18 +7,23 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.*
 import java.net.URL
 import java.util.*
 
+
 interface ObjectMapperFactory {
     fun getObjectMapper(): ObjectMapper {
         return ObjectMapper()
             .registerModule(KotlinModule())
+            .registerModule(JavaTimeModule())
             .registerModule(Jdk8Module()).apply {
                 addMixIn(Throwable::class.java, Json.ThrowableMixIn::class.java)
+                configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
             }
     }
 }
