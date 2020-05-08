@@ -1,6 +1,12 @@
 package com.github.squirrelgrip.extension.file
 
+import com.github.squirrelgrip.extension.io.toPrintWriter
 import java.io.*
+
+/**
+ * Creates a PrintWriter for the given File
+ */
+fun File.toPrintWriter() = this.toWriter().toPrintWriter()
 
 /**
  * Creates a FileWriter for the given File
