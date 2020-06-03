@@ -2,42 +2,36 @@ package com.github.squirrelgrip.extension.hash
 
 import java.security.MessageDigest
 
-fun String.md2Hash(): String {
+fun String.md2Hash(): ByteArray {
     return this.toHash("MD2")
 }
 
-fun String.md5Hash(): String {
+fun String.md5Hash(): ByteArray {
     return this.toHash("MD5")
 }
 
-fun String.sha1Hash(): String {
+fun String.sha1Hash(): ByteArray {
     return this.toHash("SHA")
 }
 
-fun String.sha224Hash(): String {
+fun String.sha224Hash(): ByteArray {
     return this.toHash("SHA-224")
 }
 
-fun String.sha256Hash(): String {
+fun String.sha256Hash(): ByteArray {
     return this.toHash("SHA-256")
 }
 
-fun String.sha384Hash(): String {
+fun String.sha384Hash(): ByteArray {
     return this.toHash("SHA-384")
 }
 
-fun String.sha512Hash(): String {
+fun String.sha512Hash(): ByteArray {
     return this.toHash("SHA-512")
 }
 
-fun String.toHash(algorithm: String = "MD5"): String {
+fun String.toHash(algorithm: String = "MD5"): ByteArray {
     val messageDigest = MessageDigest.getInstance(algorithm)
     messageDigest.update(this.toByteArray())
-    val bytes = messageDigest.digest()
-    return bytes.toHexString()
-
-}
-
-fun ByteArray.toHexString() : String {
-    return this.joinToString("") { it.toString(16) }
+    return messageDigest.digest()
 }
