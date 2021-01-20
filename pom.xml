@@ -21,10 +21,6 @@
         <url>${project.url}</url>
     </scm>
 
-    <properties>
-        <dokka.version>1.4.10.2</dokka.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
