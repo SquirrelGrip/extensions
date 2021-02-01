@@ -1,5 +1,6 @@
 package com.github.squirrelgrip.extension.json
 
+import com.flipkart.zjsonpatch.JsonDiff
 import com.github.squirrelgrip.Sample
 import com.github.squirrelgrip.extension.map.flatten
 import org.assertj.core.api.Assertions.assertThat
@@ -27,9 +28,12 @@ class JsonExtensionTest {
 
     @Test
     fun `exception to json`() {
-        assertThat(Exception("Message").toJson()).isEqualTo("""{"cause":null,"message":"Message","suppressed":[],"localizedMessage":"Message"}""")
-        val exception =
-            """{"cause":null,"message":"Message","suppressed":[],"localizedMessage":"Message"}""".toInstance<Exception>()
+        val diff = JsonDiff.asJson(
+            Exception("Message").toJson().toJsonNode(),
+            """{"cause":null,"message":"Message","localizedMessage":"Message","suppressed":[]}""".toJsonNode()
+        )
+        assertThat(diff).isEmpty()
+        val exception = """{"cause":null,"message":"Message","localizedMessage":"Message","suppressed":[]}""".toInstance<Exception>()
         assertThat(exception.message).isEqualTo(Exception("Message").message)
         assertThat(exception.cause).isEqualTo(Exception("Message").cause)
         assertThat(exception.localizedMessage).isEqualTo(Exception("Message").localizedMessage)
@@ -38,7 +42,7 @@ class JsonExtensionTest {
     @Test
     fun `write Instant`() {
         val now = Instant.now()
-        assertThat(now.toJson()).isEqualTo(""""${now.toString()}"""")
+        assertThat(now.toJson()).isEqualTo(""""$now"""")
 
     }
 }
