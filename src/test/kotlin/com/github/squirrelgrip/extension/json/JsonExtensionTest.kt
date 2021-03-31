@@ -43,6 +43,20 @@ class JsonExtensionTest {
     fun `write Instant`() {
         val now = Instant.now()
         assertThat(now.toJson()).isEqualTo(""""$now"""")
+    }
 
+    @Test
+    fun isJson() {
+        assertThat("""{}""".isJson()).isTrue()
+        assertThat("""[]""".isJson()).isTrue()
+        assertThat("""""".isJson()).isTrue()
+        assertThat("""{"a":1}""".isJson()).isTrue()
+        assertThat("""abcd""".isJson()).isFalse()
+
+        assertThat("""{}""".byteInputStream().isJson()).isTrue()
+        assertThat("""[]""".byteInputStream().isJson()).isTrue()
+        assertThat("""""".byteInputStream().isJson()).isTrue()
+        assertThat("""{"a":1}""".byteInputStream().isJson()).isTrue()
+        assertThat("""abcd""".byteInputStream().isJson()).isFalse()
     }
 }
