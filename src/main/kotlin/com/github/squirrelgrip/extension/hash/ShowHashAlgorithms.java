@@ -27,8 +27,6 @@ public class ShowHashAlgorithms {
             for (Service service : algos) {
                 String algo = service.getAlgorithm();
                 System.out.printf("Algorithm name: \"%s\"%n", algo);
-
-
             }
         }
 
