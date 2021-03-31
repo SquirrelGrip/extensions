@@ -30,8 +30,8 @@ fun String.sha512Hash(): ByteArray {
     return this.toHash("SHA-512")
 }
 
-fun String.toHash(algorithm: String = "MD5"): ByteArray {
-    val messageDigest = MessageDigest.getInstance(algorithm)
-    messageDigest.update(this.toByteArray())
-    return messageDigest.digest()
-}
+fun String.toHash(algorithm: String = "MD5"): ByteArray =
+    MessageDigest.getInstance(algorithm).let {
+        it.update(this.toByteArray())
+        it.digest()
+    }
