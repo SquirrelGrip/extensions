@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.github.squirrelgrip.util.notCatching
 import java.io.*
 import java.net.URL
 import java.util.*
@@ -80,6 +81,15 @@ fun ByteArray.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
 fun ByteArray.toJsonNode(offset: Int, length: Int): JsonNode = Json.objectMapper.readTree(this, offset, length)
 fun JsonParser.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
 fun File.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
+
+fun String.isJson(): Boolean = notCatching { this.toJsonNode() }
+fun InputStream.isJson(): Boolean = notCatching { this.toJsonNode() }
+fun Reader.isJson(): Boolean = notCatching { this.toJsonNode() }
+fun URL.isJson(): Boolean = notCatching { this.toJsonNode() }
+fun ByteArray.isJson(): Boolean = notCatching { this.toJsonNode() }
+fun ByteArray.isJson(offset: Int, length: Int): Boolean = notCatching { this.toJsonNode(offset, length) }
+fun JsonParser.isJson(): Boolean = notCatching { this.toJsonNode() }
+fun File.isJson(): Boolean = notCatching { this.toJsonNode() }
 
 fun Any.convertToMap(): Map<String, *> =
     Json.objectMapper.convertValue(this, object : TypeReference<HashMap<String, *>>() {}).toMap()

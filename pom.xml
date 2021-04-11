@@ -5,10 +5,10 @@
     <parent>
         <groupId>com.github.squirrelgrip</groupId>
         <artifactId>root</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.10</version>
     </parent>
     <artifactId>extensions</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.2</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -20,10 +20,6 @@
         <developerConnection>scm:git:https://github.com/SquirrelGrip/extensions.git</developerConnection>
         <url>${project.url}</url>
     </scm>
-
-    <properties>
-        <dokka.version>1.4.20</dokka.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -63,6 +59,12 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flipkart.zjsonpatch</groupId>
+            <artifactId>zjsonpatch</artifactId>
+            <version>0.4.11</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
