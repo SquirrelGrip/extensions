@@ -35,3 +35,37 @@ fun String.toHash(algorithm: String = "MD5"): ByteArray =
         it.update(this.toByteArray())
         it.digest()
     }
+
+fun ByteArray.md2Hash(): ByteArray {
+    return this.toHash("MD2")
+}
+
+fun ByteArray.md5Hash(): ByteArray {
+    return this.toHash("MD5")
+}
+
+fun ByteArray.sha1Hash(): ByteArray {
+    return this.toHash("SHA")
+}
+
+fun ByteArray.sha224Hash(): ByteArray {
+    return this.toHash("SHA-224")
+}
+
+fun ByteArray.sha256Hash(): ByteArray {
+    return this.toHash("SHA-256")
+}
+
+fun ByteArray.sha384Hash(): ByteArray {
+    return this.toHash("SHA-384")
+}
+
+fun ByteArray.sha512Hash(): ByteArray {
+    return this.toHash("SHA-512")
+}
+
+fun ByteArray.toHash(algorithm: String = "MD5"): ByteArray =
+    MessageDigest.getInstance(algorithm).let {
+        it.update(this)
+        it.digest()
+    }
