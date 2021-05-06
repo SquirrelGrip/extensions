@@ -1,47 +1,11 @@
 package com.github.squirrelgrip.extension.json
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.github.squirrelgrip.util.notCatching
 import java.io.*
 import java.net.URL
-import java.util.*
-
-
-interface ObjectMapperFactory {
-    fun getObjectMapper(): ObjectMapper {
-        return ObjectMapper()
-            .registerModule(KotlinModule())
-            .registerModule(JavaTimeModule())
-            .registerModule(Jdk8Module()).apply {
-                addMixIn(Throwable::class.java, Json.ThrowableMixIn::class.java)
-                configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-            }
-    }
-}
-
-object Json {
-    @JsonIgnoreProperties("stackTrace")
-    internal class ThrowableMixIn @JsonCreator constructor(@JsonProperty("message") message: String?) :
-        Throwable(message)
-
-    val objectMapper: ObjectMapper by lazy {
-        val factoryList = ServiceLoader.load(ObjectMapperFactory::class.java).toList()
-        if (factoryList.size > 1) {
-            throw RuntimeException("Cannot have more than one ObjectMapperFactory declared.")
-        }
-        (factoryList.firstOrNull() ?: (object : ObjectMapperFactory {})).getObjectMapper()
-    }
-}
 
 /**
  * Converts Any to a JSON String representation
