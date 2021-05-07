@@ -128,7 +128,16 @@
             <plugin>
                 <groupId>org.jetbrains.dokka</groupId>
                 <artifactId>dokka-maven-plugin</artifactId>
-                <version>1.4.30</version>
+                <version>${dokka-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>javadocJar</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>javadocJar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
