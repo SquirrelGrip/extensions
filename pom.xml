@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.squirrelgrip</groupId>
         <artifactId>root</artifactId>
-        <version>1.1.12</version>
+        <version>1.1.13</version>
     </parent>
     <artifactId>extensions</artifactId>
     <version>1.1.5</version>
@@ -69,11 +69,21 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.flipkart.zjsonpatch</groupId>
             <artifactId>zjsonpatch</artifactId>
             <version>0.4.11</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
+    </build>
 
 </project>
