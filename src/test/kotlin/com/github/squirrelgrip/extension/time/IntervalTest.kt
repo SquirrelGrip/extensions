@@ -1,4 +1,4 @@
-package com.github.squirrelgrip.util
+package com.github.squirrelgrip.extension.time
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -27,6 +27,7 @@ class IntervalTest {
         val allBeforeInterval = Interval.of(past2Day, past1Day)
         val allBetweenInterval = Interval.of(past1Day, future1Day)
         val allAfterInterval = Interval.of(future1Day, future2Day)
+        val allInterval = Interval.of(past2Day, future2Day)
 
         @JvmStatic
         fun create(): Stream<Interval> {
@@ -42,6 +43,16 @@ class IntervalTest {
                 Interval.of(duration2Day.negated(), past1Day),
                 Interval.of(now, period1Day).withStart(past1Day),
                 Interval.of(period1Day, now).withEnd(future1Day),
+                Interval.of(past1Day.toOffsetDateTime(), period2Day),
+                Interval.of(future1Day.toOffsetDateTime(), period2Day.negated()),
+                Interval.of(period2Day, future1Day.toOffsetDateTime()),
+                Interval.of(period2Day.negated(), past1Day.toOffsetDateTime()),
+                Interval.of(past1Day.toOffsetDateTime(), duration2Day),
+                Interval.of(future1Day.toOffsetDateTime(), duration2Day.negated()),
+                Interval.of(duration2Day, future1Day.toOffsetDateTime()),
+                Interval.of(duration2Day.negated(), past1Day.toOffsetDateTime()),
+                Interval.of(now.toOffsetDateTime(), period1Day).withStart(past1Day),
+                Interval.of(period1Day, now.toOffsetDateTime()).withEnd(future1Day),
                 Interval.parse("$past1Day/$future1Day"),
                 Interval.parse("$past1Day/$period2Day"),
                 Interval.parse("$period2Day/$future1Day"),
@@ -66,7 +77,7 @@ class IntervalTest {
         assertThat(testSubject.isBefore(past2Day)).isFalse()
         assertThat(testSubject.isBefore(past1Day)).isFalse()
         assertThat(testSubject.isBefore(now)).isFalse()
-        assertThat(testSubject.isBefore(future1Day)).isFalse()
+        assertThat(testSubject.isBefore(future1Day)).isTrue()
         assertThat(testSubject.isBefore(future2Day)).isTrue()
     }
 
@@ -94,6 +105,7 @@ class IntervalTest {
         assertThat(testSubject.isBefore(allBeforeInterval)).isFalse()
         assertThat(testSubject.isBefore(allBetweenInterval)).isFalse()
         assertThat(testSubject.isBefore(allAfterInterval)).isTrue()
+        assertThat(testSubject.isBefore(allInterval)).isFalse()
     }
 
     @Test
@@ -101,6 +113,7 @@ class IntervalTest {
         assertThat(testSubject.isAfter(allBeforeInterval)).isTrue()
         assertThat(testSubject.isAfter(allBetweenInterval)).isFalse()
         assertThat(testSubject.isAfter(allAfterInterval)).isFalse()
+        assertThat(testSubject.isAfter(allInterval)).isFalse()
     }
 
     @Test
@@ -112,6 +125,7 @@ class IntervalTest {
         assertThat(testSubject.abuts(allAfterInterval.withStart(allBeforeInterval.start.minusMillis(1)))).isFalse()
         assertThat(testSubject.abuts(allAfterInterval)).isTrue()
         assertThat(testSubject.abuts(allAfterInterval.withStart(allBeforeInterval.start.plusMillis(1)))).isFalse()
+        assertThat(testSubject.abuts(allInterval)).isFalse()
     }
 
     @Test
@@ -124,6 +138,7 @@ class IntervalTest {
         assertThat(testSubject.overlaps(allAfterInterval.withStart(testSubject.end.minusMillis(1)))).isTrue()
         assertThat(testSubject.overlaps(allAfterInterval)).isFalse()
         assertThat(testSubject.overlaps(allAfterInterval.withStart(testSubject.end.plusMillis(1)))).isFalse()
+        assertThat(testSubject.overlaps(allInterval)).isTrue()
     }
 
     @Test
@@ -142,11 +157,21 @@ class IntervalTest {
             .isNull()
         assertThat(testSubject.overlap(allAfterInterval.withStart(testSubject.end.plusMillis(1))))
             .isNull()
+        assertThat(testSubject.overlap(allInterval))
+            .isEqualTo(testSubject)
     }
 
     @Test
     fun join() {
-        assertThrows<IllegalArgumentException> { testSubject.join(allBeforeInterval.withEnd(testSubject.start.minusMillis(1))) }
+        assertThrows<IllegalArgumentException> {
+            testSubject.join(
+                allBeforeInterval.withEnd(
+                    testSubject.start.minusMillis(
+                        1
+                    )
+                )
+            )
+        }
         assertThat(testSubject.join(allBeforeInterval))
             .isEqualTo(allBeforeInterval.withEnd(testSubject.end))
         assertThat(testSubject.join(allBeforeInterval.withEnd(testSubject.start.plusMillis(1))))
@@ -157,10 +182,20 @@ class IntervalTest {
             .isEqualTo(testSubject.withEnd(allAfterInterval.end))
         assertThat(testSubject.join(allAfterInterval))
             .isEqualTo(testSubject.withEnd(allAfterInterval.end))
-        assertThrows<IllegalArgumentException> {testSubject.join(allAfterInterval.withStart(testSubject.end.plusMillis(1))) }
+        assertThrows<IllegalArgumentException> {
+            testSubject.join(
+                allAfterInterval.withStart(
+                    testSubject.end.plusMillis(
+                        1
+                    )
+                )
+            )
+        }
+        assertThat(testSubject.join(allInterval))
+            .isEqualTo(allInterval)
     }
 
-   @Test
+    @Test
     fun gap() {
         assertThat(testSubject.gap(allBeforeInterval.withEnd(testSubject.start.minusMillis(1))))
             .isEqualTo(Interval.of(testSubject.start.minusMillis(1), testSubject.start))
@@ -176,6 +211,8 @@ class IntervalTest {
             .isNull()
         assertThat(testSubject.gap(allAfterInterval.withStart(testSubject.end.plusMillis(1))))
             .isEqualTo(Interval.of(testSubject.end, testSubject.end.plusMillis(1)))
+        assertThat(testSubject.gap(allInterval))
+            .isNull()
     }
 
     @Test
@@ -188,6 +225,7 @@ class IntervalTest {
         assertThat(testSubject.contains(allAfterInterval.withStart(testSubject.end.minusMillis(1)))).isFalse()
         assertThat(testSubject.contains(allAfterInterval)).isFalse()
         assertThat(testSubject.contains(allAfterInterval.withStart(testSubject.end.plusMillis(1)))).isFalse()
+        assertThat(testSubject.contains(allInterval)).isFalse()
     }
 
 }
