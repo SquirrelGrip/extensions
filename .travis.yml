@@ -1,32 +1,30 @@
 language: java
 jdk:
-- openjdk11
+  - openjdk11
 install: true
 dist: trusty
 os: linux
-env:
-  - MAVEN_COMMAND=./mvnw --batch-mode -s travis/settings.xml -U clean
 git:
   depth: false
 cache:
   directories:
-  - "$HOME/.m2"
+    - "$HOME/.m2"
 before_install:
-- openssl aes-256-cbc -K $encrypted_b9bec049d0a5_key -iv $encrypted_b9bec049d0a5_iv -in travis/all.gpg.enc -out travis/all.gpg -d
-- gpg --import travis/all.gpg
-- rm travis/all.gpg
+  - openssl aes-256-cbc -K $encrypted_b9bec049d0a5_key -iv $encrypted_b9bec049d0a5_iv -in travis/all.gpg.enc -out travis/all.gpg -d
+  - gpg --import travis/all.gpg
+  - rm travis/all.gpg
 jobs:
   include:
-  - stage: build
-    script: $MAVEN_COMMAND install
-  - stage: startRelease
-    script: $MAVEN_COMMAND jgitflow:release-start -PgitflowStart
-  - stage: finishRelease
-    script: $MAVEN_COMMAND jgitflow:release-finish
+    - stage: build
+      script: ./mvnw --batch-mode -s travis/settings.xml -U clean install
+    - stage: startRelease
+      script: ./mvnw --batch-mode -s travis/settings.xml -U clean jgitflow:release-start -PgitflowStart
+    - stage: finishRelease
+      script: ./mvnw --batch-mode -s travis/settings.xml -U clean jgitflow:release-finish
 stages:
-- name: build
-  if: branch !~ ^release.*$
-- name: startRelease
-  if: (branch = "develop") AND (env(RELEASE) IS present AND env(RELEASE) = true)
-- name: finishRelease
-  if: branch =~ ^release.*$
+  - name: build
+    if: branch !~ ^release.*$
+  - name: startRelease
+    if: (branch = "develop") AND (env(RELEASE) IS present AND env(RELEASE) = true)
+  - name: finishRelease
+    if: branch =~ ^release.*$
