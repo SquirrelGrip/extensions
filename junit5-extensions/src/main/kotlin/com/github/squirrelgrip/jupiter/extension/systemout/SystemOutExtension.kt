@@ -1,4 +1,4 @@
-package com.github.squirrelgrip.jupiter.extension
+package com.github.squirrelgrip.jupiter.extension.systemout
 
 /**
  * Grabs the text written to System.out

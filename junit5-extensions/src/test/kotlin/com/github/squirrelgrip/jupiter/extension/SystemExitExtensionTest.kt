@@ -2,17 +2,18 @@ package com.github.squirrelgrip.jupiter.extension
 
 import com.github.squirrelgrip.jupiter.extension.systemexit.ExpectSystemExit
 import org.junit.jupiter.api.Test
+import kotlin.system.exitProcess
 
 internal class SystemExitExtensionTest {
     @Test
-    @ExpectSystemExit(0)
+    @ExpectSystemExit
     fun expectSystemExitToReturn0() {
-        System.exit(0)
+        exitProcess(0)
     }
 
     @Test
-    @ExpectSystemExit(1)
+    @ExpectSystemExit
     fun expectSystemExit() {
-        System.exit(1)
+        exitProcess(1)
     }
 }
