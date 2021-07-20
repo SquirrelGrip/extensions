@@ -28,5 +28,3 @@ fun String.fromHex(): ByteArray {
     }
     return output.toString().toByteArray()
 }
-
-
