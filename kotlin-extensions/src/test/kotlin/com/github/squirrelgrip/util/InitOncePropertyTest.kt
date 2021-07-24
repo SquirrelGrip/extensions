@@ -1,5 +1,6 @@
 package com.github.squirrelgrip.util
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import kotlin.properties.ReadWriteProperty
@@ -12,7 +13,7 @@ class InitOncePropertyTest {
 
     @Test
     fun readValueFailure() {
-        assertThrows(IllegalStateException::class.java) {  val data = property }
+        assertThrows(IllegalStateException::class.java) {  property }
     }
 
     @Test
@@ -26,6 +27,7 @@ class InitOncePropertyTest {
         property = "Test"
         val data1 = property
         val data2 = property
+        assertThat(data1).isSameAs(data2)
     }
 
 }

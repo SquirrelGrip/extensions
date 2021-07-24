@@ -3,22 +3,17 @@ package com.github.squirrelgrip.extension.io
 import java.io.*
 import java.nio.charset.Charset
 
-fun Reader.toBufferedReader(): BufferedReader {
-    return BufferedReader(this)
-}
+fun Reader.toBufferedReader(): BufferedReader =
+    BufferedReader(this)
 
-fun Writer.toBufferedWriter(): BufferedWriter {
-    return BufferedWriter(this)
-}
+fun Writer.toBufferedWriter(): BufferedWriter =
+    BufferedWriter(this)
 
-fun Writer.toPrintWriter(): PrintWriter {
-    return PrintWriter(this)
-}
+fun Writer.toPrintWriter(): PrintWriter =
+    PrintWriter(this)
 
-fun OutputStream.toWriter(charset: Charset = Charset.defaultCharset()): Writer {
-    return OutputStreamWriter(this, charset)
-}
+fun OutputStream.toWriter(charset: Charset = Charset.defaultCharset()): Writer =
+    OutputStreamWriter(this, charset)
 
-fun InputStream.toReader(charset: Charset = Charset.defaultCharset()): Reader {
-    return InputStreamReader(this, charset)
-}
+fun InputStream.toReader(charset: Charset = Charset.defaultCharset()): Reader =
+    InputStreamReader(this, charset)
