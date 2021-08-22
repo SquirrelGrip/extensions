@@ -23,7 +23,7 @@ public class ShowHashAlgorithms {
         }
 
         if (!algos.isEmpty()) {
-            System.out.printf(" --- Provider %s, version %.2f --- %n", prov.getName(), prov.getVersion());
+            System.out.printf(" --- Provider %s, version %.2f --- %s", prov.getName(), prov.getVersionStr());
             for (Service service : algos) {
                 String algo = service.getAlgorithm();
                 System.out.printf("Algorithm name: \"%s\"%n", algo);

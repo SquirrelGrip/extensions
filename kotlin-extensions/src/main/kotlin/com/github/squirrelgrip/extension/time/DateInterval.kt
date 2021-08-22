@@ -55,7 +55,7 @@ class DateInterval private constructor(
 
     fun isAfter(interval: DateInterval): Boolean = start.isEqualOrAfter(interval.end)
 
-    override fun contains(date: LocalDate): Boolean = (date.isEqualOrAfter(start)) && date.isBefore(end)
+    override fun contains(element: LocalDate): Boolean = (element.isEqualOrAfter(start)) && element.isBefore(end)
 
     //    Does this interval abut with the interval specified.
     fun abuts(interval: DateInterval): Boolean = interval.end == start || interval.start == end
