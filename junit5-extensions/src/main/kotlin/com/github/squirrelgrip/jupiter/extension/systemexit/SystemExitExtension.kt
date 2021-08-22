@@ -15,6 +15,7 @@ class SystemExitExtension : BeforeEachCallback, AfterEachCallback, TestExecution
     private var failOnSystemExit = false
     private val disallowExitSecurityManager = DisallowExitSecurityManager(System.getSecurityManager())
     private var originalSecurityManager: SecurityManager? = null
+
     override fun afterEach(context: ExtensionContext) {
         // Return the original SecurityManager, if any, to service.
         System.setSecurityManager(originalSecurityManager)
@@ -63,7 +64,6 @@ class SystemExitExtension : BeforeEachCallback, AfterEachCallback, TestExecution
      * @param throwable the `Throwable` to handle; never `null`
      * @throws Throwable if the throwable argument is not a SystemExitPreventedException
      */
-    @Throws(Throwable::class)
     override fun handleTestExecutionException(context: ExtensionContext, throwable: Throwable) {
         if (throwable !is SystemExitPreventedException) {
             throw throwable
