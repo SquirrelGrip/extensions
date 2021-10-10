@@ -1,15 +1,7 @@
 package com.github.squirrelgrip.extension.yaml
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.*
 import java.net.URL
-
-
-object Yaml {
-    val yamlMapper = ObjectMapper(YAMLFactory()).registerModule(KotlinModule())
-}
 
 /**
  * Converts Any to a XML String representation
