@@ -19,7 +19,7 @@ object Json {
     class ObjectMapperDelegate : ReadWriteProperty<Json, ObjectMapper> {
         lateinit var value : ObjectMapper
 
-        val defaultobjectMapper: ObjectMapper by lazy {
+        val defaultObjectMapper: ObjectMapper by lazy {
             val factoryList = ServiceLoader.load(ObjectMapperFactory::class.java).toList()
             if (factoryList.size > 1) {
                 throw RuntimeException("Cannot have more than one ObjectMapperFactory declared.")
@@ -28,7 +28,7 @@ object Json {
         }
 
         override fun getValue(thisRef: Json, property: KProperty<*>): ObjectMapper {
-            return if (!this::value.isInitialized) defaultobjectMapper else value
+            return if (!this::value.isInitialized) defaultObjectMapper else value
         }
 
         override fun setValue(thisRef: Json, property: KProperty<*>, value: ObjectMapper) {

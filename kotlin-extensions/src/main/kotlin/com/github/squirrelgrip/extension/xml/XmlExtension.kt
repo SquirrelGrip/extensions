@@ -1,12 +1,7 @@
 package com.github.squirrelgrip.extension.xml
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import java.io.*
 import java.net.URL
-
-object Xml {
-    val xmlMapper = XmlMapper()
-}
 
 /**
  * Converts Any to a XML String representation
