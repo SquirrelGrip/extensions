@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.squirrelgrip</groupId>
         <artifactId>dependencies</artifactId>
-        <version>1.2.14</version>
+        <version>1.2.16</version>
     </parent>
     <artifactId>extensions</artifactId>
     <version>1.2.5-SNAPSHOT</version>
@@ -27,32 +27,5 @@
             <url>http://localhost/extensions</url>
         </site>
     </distributionManagement>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>dependency-updates-report</report>
-                            <report>plugin-updates-report</report>
-                            <report>property-updates-report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-                <configuration>
-                    <processDependencyManagementTransitive>false</processDependencyManagementTransitive>
-                    <formats>html,xml</formats>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.github.squirrelgrip</groupId>
-                <artifactId>update-maven-plugin</artifactId>
-                <version>1.2.14</version>
-            </plugin>
-        </plugins>
-    </reporting>
 
 </project>
