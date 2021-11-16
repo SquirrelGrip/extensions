@@ -44,3 +44,10 @@ fun <T> Collection<T>.filter(expression: String, extractor: (T) -> Collection<St
         predicate.invoke(extractor.invoke(it))
     }
 }
+
+fun Collection<Collection<String>>.filter(expression: String): List<Collection<String>> {
+    val predicate = DrainerCompiler().compile(expression)
+    return this.filter {
+        predicate.invoke(it)
+    }
+}

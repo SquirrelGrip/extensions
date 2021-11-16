@@ -3,6 +3,8 @@ package com.github.squirrelgrip.extension.json
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.ObjectWriter
 import com.github.squirrelgrip.util.notCatching
 import java.io.*
 import java.net.URL
@@ -10,6 +12,8 @@ import java.net.URL
 /**
  * Converts Any to a JSON String representation
  */
+fun Any.toJson(objectWriter: (ObjectMapper) -> ObjectWriter): String = objectWriter.invoke(Json.objectMapper.copy()).writeValueAsString(this)
+
 fun Any.toJson(): String = Json.objectMapper.writeValueAsString(this)
 fun Any.toJson(file: File) = Json.objectMapper.writeValue(file, this)
 fun Any.toJson(outputStream: OutputStream) = Json.objectMapper.writeValue(outputStream, this)
