@@ -7,7 +7,7 @@
         <version>1.2.34</version>
     </parent>
     <artifactId>extensions</artifactId>
-    <version>1.2.8-SNAPSHOT</version>
+    <version>1.2.8</version>
     <packaging>pom</packaging>
 
     <scm>
