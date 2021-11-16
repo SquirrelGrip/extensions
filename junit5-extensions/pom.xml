@@ -4,7 +4,7 @@
     <parent>
         <artifactId>extensions</artifactId>
         <groupId>com.github.squirrelgrip</groupId>
-        <version>1.2.7</version>
+        <version>1.2.8</version>
     </parent>
 
     <artifactId>junit5-extensions</artifactId>
@@ -23,7 +23,6 @@
         <dependency>
             <groupId>org.junit-pioneer</groupId>
             <artifactId>junit-pioneer</artifactId>
-            <version>1.4.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
