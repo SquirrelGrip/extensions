@@ -31,7 +31,7 @@
                     <processDependencyManagement>true</processDependencyManagement>
                     <processPluginDependencies>true</processPluginDependencies>
                     <processPluginDependenciesInPluginManagement>true</processPluginDependenciesInPluginManagement>
-                    <processTransitive>false</processTransitive>
+                    <processTransitive>true</processTransitive>
                 </configuration>
             </plugin>
         </plugins>
