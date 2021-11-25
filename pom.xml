@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.squirrelgrip</groupId>
         <artifactId>dependencies</artifactId>
-        <version>1.2.37</version>
+        <version>1.2.38</version>
     </parent>
     <artifactId>extensions</artifactId>
     <version>1.2.10-SNAPSHOT</version>
@@ -19,28 +19,7 @@
     <modules>
         <module>kotlin-extensions</module>
         <module>junit5-extensions</module>
-<!--        <module>sampler</module>-->
     </modules>
-
-<!--    <properties>-->
-<!--        <vxutil-core.version>0.4.0</vxutil-core.version>-->
-<!--        <querity-api.version>1.0.1</querity-api.version>-->
-<!--    </properties>-->
-
-<!--    <dependencyManagement>-->
-<!--        <dependencies>-->
-<!--            <dependency>-->
-<!--                <groupId>ski.gagar.vxutil</groupId>-->
-<!--                <artifactId>vxutil-core</artifactId>-->
-<!--                <version>${vxutil-core.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>net.brunomendola.querity</groupId>-->
-<!--                <artifactId>querity-api</artifactId>-->
-<!--                <version>${querity-api.version}</version>-->
-<!--            </dependency>-->
-<!--        </dependencies>-->
-<!--    </dependencyManagement>-->
 
     <reporting>
         <plugins>
