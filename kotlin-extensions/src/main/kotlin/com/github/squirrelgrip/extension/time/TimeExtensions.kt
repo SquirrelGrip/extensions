@@ -1,6 +1,5 @@
 package com.github.squirrelgrip.extension.time
 
-import java.lang.UnsupportedOperationException
 import java.time.*
 import java.time.ZoneOffset.UTC
 import java.time.chrono.ChronoLocalDateTime

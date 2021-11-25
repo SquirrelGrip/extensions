@@ -1,7 +1,9 @@
 package com.github.squirrelgrip.extension.time
 
-import java.lang.UnsupportedOperationException
-import java.time.*
+import java.time.Duration
+import java.time.Instant
+import java.time.Period
+import java.time.ZoneOffset
 import java.time.ZoneOffset.UTC
 import java.time.temporal.Temporal
 
@@ -82,7 +84,7 @@ class Interval private constructor(
             null
         }
 
-    fun join(interval: Interval): Interval? =
+    fun join(interval: Interval): Interval =
         when {
             abuts(interval) || overlaps(interval) -> {
                 val start = if (this.start.isBefore(interval.start)) this.start else interval.start
