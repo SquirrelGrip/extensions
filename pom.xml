@@ -4,10 +4,10 @@
     <parent>
         <groupId>com.github.squirrelgrip</groupId>
         <artifactId>dependencies</artifactId>
-        <version>1.2.34</version>
+        <version>1.2.40</version>
     </parent>
     <artifactId>extensions</artifactId>
-    <version>1.2.8</version>
+    <version>1.2.10</version>
     <packaging>pom</packaging>
 
     <scm>
@@ -20,6 +20,22 @@
         <module>kotlin-extensions</module>
         <module>junit5-extensions</module>
     </modules>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>com.github.squirrelgrip</groupId>
+                <artifactId>update-maven-plugin</artifactId>
+                <configuration>
+                    <processDependencies>true</processDependencies>
+                    <processDependencyManagement>true</processDependencyManagement>
+                    <processPluginDependencies>true</processPluginDependencies>
+                    <processPluginDependenciesInPluginManagement>true</processPluginDependenciesInPluginManagement>
+                    <processTransitive>true</processTransitive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <distributionManagement>
         <site>
