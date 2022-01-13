@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import java.util.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -24,7 +25,9 @@ object Json {
             if (factoryList.size > 1) {
                 throw RuntimeException("Cannot have more than one ObjectMapperFactory declared.")
             }
-            (factoryList.firstOrNull() ?: (object : ObjectMapperFactory {})).getObjectMapper()
+            (factoryList.firstOrNull() ?: (object : ObjectMapperFactory {})).getObjectMapper().findAndRegisterModules().also {
+                it.registerModule(JavaTimeModule())
+            }
         }
 
         override fun getValue(thisRef: Json, property: KProperty<*>): ObjectMapper {

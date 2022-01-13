@@ -5,6 +5,7 @@ import com.github.squirrelgrip.Sample
 import com.github.squirrelgrip.extension.map.flatten
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.parallel.ResourceLock
 import java.time.Instant
 
 class JsonExtensionTest {
