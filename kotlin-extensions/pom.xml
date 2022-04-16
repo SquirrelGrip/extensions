@@ -4,7 +4,7 @@
     <parent>
         <artifactId>extensions</artifactId>
         <groupId>com.github.squirrelgrip</groupId>
-        <version>1.2.12</version>
+        <version>1.2.13-SNAPSHOT</version>
     </parent>
     <artifactId>kotlin-extensions</artifactId>
     <description>A collection of useful kotlin extensions</description>
