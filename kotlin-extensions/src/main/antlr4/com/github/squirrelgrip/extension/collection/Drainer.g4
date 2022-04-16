@@ -5,15 +5,23 @@ expression: expression AND expression # AndExpression
    | expression OR expression # OrExpression
    | NOT expression # NotExpression
    | LPAREN expression RPAREN # ParenExpression
-   | variable # VariableExpression;
+   | variable # VariableExpression
+   | wildVariable # WildVariableExpression;
 variable: VARIABLE;
+wildVariable: WILD_VARIABLE;
 
-fragment VALID_ID_START: ('a'..'z') | ('A'..'Z') | '_' ;
-fragment VALID_ID_CHAR: VALID_ID_START | ('0'..'9');
-VARIABLE: VALID_ID_START VALID_ID_CHAR*;
+fragment VALID_VARIABLE_CHAR: ('0'..'9') | ('a'..'z') | ('A'..'Z') | UNDERSCORE | DOT;
+fragment VALID_WILD_VARIABLE_CHAR: VALID_VARIABLE_CHAR | ASTERISK | QUESTION_MARK;
+
+VARIABLE: VALID_VARIABLE_CHAR VALID_VARIABLE_CHAR*;
+WILD_VARIABLE: VALID_WILD_VARIABLE_CHAR VALID_WILD_VARIABLE_CHAR*;
 LPAREN: '(';
 RPAREN: ')';
 AND: '&';
 NOT: '!';
 OR: '|';
+UNDERSCORE: '_';
+DOT: '.';
+QUESTION_MARK: '?';
+ASTERISK: '*';
 WS: [ \r\n\t] + -> skip;

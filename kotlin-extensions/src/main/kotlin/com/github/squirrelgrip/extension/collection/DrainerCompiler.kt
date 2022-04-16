@@ -6,30 +6,58 @@ import org.antlr.v4.runtime.CommonTokenStream
 class DrainerCompiler {
 
     companion object {
-        val visitor: DrainerBaseVisitor<(Collection<String>) -> Boolean> = object : DrainerBaseVisitor<(Collection<String>) -> Boolean>() {
-            override fun visitAndExpression(ctx: DrainerParser.AndExpressionContext): (Collection<String>) -> Boolean = {
-                visit(ctx.expression(0)).invoke(it) && visit(ctx.expression(1)).invoke(it)
+        val visitor: DrainerBaseVisitor<(Collection<String>) -> Boolean> =
+            object : DrainerBaseVisitor<(Collection<String>) -> Boolean>() {
+                override fun visitAndExpression(ctx: DrainerParser.AndExpressionContext): (Collection<String>) -> Boolean =
+                    {
+                        visit(ctx.expression(0)).invoke(it) && visit(ctx.expression(1)).invoke(it)
+                    }
+
+                override fun visitOrExpression(ctx: DrainerParser.OrExpressionContext): (Collection<String>) -> Boolean =
+                    {
+                        visit(ctx.expression(0)).invoke(it) || visit(ctx.expression(1)).invoke(it)
+                    }
+
+                override fun visitNotExpression(ctx: DrainerParser.NotExpressionContext): (Collection<String>) -> Boolean =
+                    {
+                        !visit(ctx.expression()).invoke(it)
+                    }
+
+                override fun visitWildVariableExpression(ctx: DrainerParser.WildVariableExpressionContext): (Collection<String>) -> Boolean =
+                    {
+                        val regex = globToRegEx(ctx.wildVariable().text)
+                        it.any { value ->
+                            regex.matches(value)
+                        }
+                    }
+
+                override fun visitVariableExpression(ctx: DrainerParser.VariableExpressionContext): (Collection<String>) -> Boolean =
+                    {
+                        ctx.variable().text in it
+                    }
+
+                override fun visitParenExpression(ctx: DrainerParser.ParenExpressionContext): (Collection<String>) -> Boolean =
+                    {
+                        visit(ctx.expression()).invoke(it)
+                    }
+
+                override fun visitPredicate(ctx: DrainerParser.PredicateContext): (Collection<String>) -> Boolean = {
+                    visit(ctx.expression()).invoke(it)
+                }
             }
 
-            override fun visitOrExpression(ctx: DrainerParser.OrExpressionContext): (Collection<String>) -> Boolean = {
-                visit(ctx.expression(0)).invoke(it) || visit(ctx.expression(1)).invoke(it)
+        fun globToRegEx(glob: String): Regex {
+            var out: String = "^"
+            glob.forEach { c ->
+                out += when (c) {
+                    '*' -> ".*"
+                    '?' -> '.'
+                    '.' -> "\\."
+                    else -> c
+                }
             }
-
-            override fun visitNotExpression(ctx: DrainerParser.NotExpressionContext): (Collection<String>) -> Boolean = {
-                !visit(ctx.expression()).invoke(it)
-            }
-
-            override fun visitVariableExpression(ctx: DrainerParser.VariableExpressionContext): (Collection<String>) -> Boolean = {
-                ctx.variable().text in it
-            }
-
-            override fun visitParenExpression(ctx: DrainerParser.ParenExpressionContext): (Collection<String>) -> Boolean = {
-                visit(ctx.expression()).invoke(it)
-            }
-
-            override fun visitPredicate(ctx: DrainerParser.PredicateContext): (Collection<String>) -> Boolean = {
-                visit(ctx.expression()).invoke(it)
-            }
+            out += '$'
+            return out.toRegex()
         }
     }
 
