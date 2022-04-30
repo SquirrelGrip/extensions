@@ -12,7 +12,8 @@ import java.net.URL
 /**
  * Converts Any to a JSON String representation
  */
-fun Any.toJson(objectWriter: (ObjectMapper) -> ObjectWriter): String = objectWriter.invoke(Json.objectMapper.copy()).writeValueAsString(this)
+fun Any.toJson(objectWriter: (ObjectMapper) -> ObjectWriter): String =
+    objectWriter.invoke(Json.objectMapper.copy()).writeValueAsString(this)
 
 fun Any.toJson(): String = Json.objectMapper.writeValueAsString(this)
 fun Any.toJson(file: File) = Json.objectMapper.writeValue(file, this)

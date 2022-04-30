@@ -18,16 +18,17 @@ object Json {
     var objectMapper: ObjectMapper by ObjectMapperDelegate()
 
     class ObjectMapperDelegate : ReadWriteProperty<Json, ObjectMapper> {
-        lateinit var value : ObjectMapper
+        lateinit var value: ObjectMapper
 
         val defaultObjectMapper: ObjectMapper by lazy {
             val factoryList = ServiceLoader.load(ObjectMapperFactory::class.java).toList()
             if (factoryList.size > 1) {
                 throw RuntimeException("Cannot have more than one ObjectMapperFactory declared.")
             }
-            (factoryList.firstOrNull() ?: (object : ObjectMapperFactory {})).getObjectMapper().findAndRegisterModules().also {
-                it.registerModule(JavaTimeModule())
-            }
+            (factoryList.firstOrNull() ?: (object : ObjectMapperFactory {})).getObjectMapper().findAndRegisterModules()
+                .also {
+                    it.registerModule(JavaTimeModule())
+                }
         }
 
         override fun getValue(thisRef: Json, property: KProperty<*>): ObjectMapper {

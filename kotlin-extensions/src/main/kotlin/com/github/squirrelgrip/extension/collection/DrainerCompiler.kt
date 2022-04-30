@@ -63,7 +63,6 @@ class DrainerCompiler {
 
     fun compile(input: String): (Collection<String>) -> Boolean =
         visitor.visit(DrainerParser(CommonTokenStream(DrainerLexer(CharStreams.fromString(input)))).predicate())
-
 }
 
 fun <T> Collection<T>.filter(expression: String, extractor: (T) -> Collection<String>): List<T> {

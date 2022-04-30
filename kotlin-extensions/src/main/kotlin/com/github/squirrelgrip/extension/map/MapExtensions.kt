@@ -1,6 +1,5 @@
 package com.github.squirrelgrip.extension.map
 
-
 /**
  * Reverses a List<Pair<K, V>> into a Map<V, List<K>>
  * @return reversed Map<V, List<K>>

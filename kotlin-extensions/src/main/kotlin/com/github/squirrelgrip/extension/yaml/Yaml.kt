@@ -17,7 +17,7 @@ object Yaml {
     var yamlMapper: YAMLMapper by YamlMapperDelegate()
 
     class YamlMapperDelegate : ReadWriteProperty<Yaml, YAMLMapper> {
-        lateinit var value : YAMLMapper
+        lateinit var value: YAMLMapper
 
         val defaultYamlMapper: YAMLMapper by lazy {
             val factoryList = ServiceLoader.load(YamlMapperFactory::class.java).toList()

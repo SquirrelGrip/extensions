@@ -10,5 +10,5 @@ data class Sample(
     @JsonProperty("m")
     val m: Map<String, String> = mapOf("a" to "AAA"),
     @JsonProperty("l")
-    val l: List<String> = listOf("1","AAA")
+    val l: List<String> = listOf("1", "AAA")
 )

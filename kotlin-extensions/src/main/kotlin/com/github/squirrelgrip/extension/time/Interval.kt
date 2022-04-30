@@ -41,7 +41,6 @@ class Interval private constructor(
                 else -> of(Instant.parse(split[0]), Instant.parse(split[1]))
             }
         }
-
     }
 
     fun toDuration(): Duration = Duration.between(start, end)
