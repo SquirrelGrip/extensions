@@ -17,7 +17,7 @@ object Xml {
     var xmlMapper: XmlMapper by XmlMapperDelegate()
 
     class XmlMapperDelegate : ReadWriteProperty<Xml, XmlMapper> {
-        lateinit var value : XmlMapper
+        lateinit var value: XmlMapper
 
         val defaultXmlMapper: XmlMapper by lazy {
             val factoryList = ServiceLoader.load(XmlMapperFactory::class.java).toList()

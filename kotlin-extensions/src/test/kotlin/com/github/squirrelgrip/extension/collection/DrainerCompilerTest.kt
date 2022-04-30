@@ -119,11 +119,13 @@ internal class DrainerCompilerTest {
         assertThat(compile.invoke(setOfC)).isTrue
         assertThat(compile.invoke(setOfAAndB)).isTrue
 
-        assertThat(collection.filter(input) {
-            it.second
-        }.map {
-            it.first
-        }).containsExactly(1, 2, 3, 4, 5, 6, 7, 8)
+        assertThat(
+            collection.filter(input) {
+                it.second
+            }.map {
+                it.first
+            }
+        ).containsExactly(1, 2, 3, 4, 5, 6, 7, 8)
     }
 
     @Test
@@ -135,11 +137,13 @@ internal class DrainerCompilerTest {
         assertThat(compile.invoke(setOfC)).isTrue
         assertThat(compile.invoke(setOfAAndB)).isTrue
 
-        assertThat(collection.filter(input) {
-            it.second
-        }.map {
-            it.first
-        }).containsExactly(1, 2, 3, 4)
+        assertThat(
+            collection.filter(input) {
+                it.second
+            }.map {
+                it.first
+            }
+        ).containsExactly(1, 2, 3, 4)
     }
 
     @Test
@@ -151,11 +155,13 @@ internal class DrainerCompilerTest {
         assertThat(compile.invoke(setOfC)).isTrue
         assertThat(compile.invoke(setOfAAndB)).isTrue
 
-        assertThat(collection.filter(input) {
-            it.second
-        }.map {
-            it.first
-        }).containsExactly(1, 2, 3, 4)
+        assertThat(
+            collection.filter(input) {
+                it.second
+            }.map {
+                it.first
+            }
+        ).containsExactly(1, 2, 3, 4)
     }
 
     @Test
@@ -167,11 +173,13 @@ internal class DrainerCompilerTest {
         assertThat(compile.invoke(setOfC)).isFalse
         assertThat(compile.invoke(setOfAAndB)).isFalse
 
-        assertThat(collection.filter(input) {
-            it.second
-        }.map {
-            it.first
-        }).containsExactly(1)
+        assertThat(
+            collection.filter(input) {
+                it.second
+            }.map {
+                it.first
+            }
+        ).containsExactly(1)
     }
 
     @Test
@@ -183,11 +191,13 @@ internal class DrainerCompilerTest {
         assertThat(compile.invoke(setOfC)).isTrue
         assertThat(compile.invoke(setOfAAndB)).isTrue
 
-        assertThat(collection.filter(input) {
-            it.second
-        }.map {
-            it.first
-        }).containsExactly(1, 2, 3, 4, 5, 6, 7, 8)
+        assertThat(
+            collection.filter(input) {
+                it.second
+            }.map {
+                it.first
+            }
+        ).containsExactly(1, 2, 3, 4, 5, 6, 7, 8)
     }
 
     @Test
@@ -199,11 +209,13 @@ internal class DrainerCompilerTest {
         assertThat(compile.invoke(setOfC)).isTrue
         assertThat(compile.invoke(setOfAAndB)).isTrue
 
-        assertThat(collection.filter(input) {
-            it.second
-        }.map {
-            it.first
-        }).containsExactly(1, 2, 3, 4)
+        assertThat(
+            collection.filter(input) {
+                it.second
+            }.map {
+                it.first
+            }
+        ).containsExactly(1, 2, 3, 4)
     }
 
     @Test
@@ -219,11 +231,12 @@ internal class DrainerCompilerTest {
         assertThat(compile.invoke(setOfAC)).isTrue
         assertThat(compile.invoke(setOfAAAndAB)).isTrue
 
-        assertThat(collection.filter(input) {
-            it.second
-        }.map {
-            it.first
-        }).containsExactly(5, 6, 7, 8)
+        assertThat(
+            collection.filter(input) {
+                it.second
+            }.map {
+                it.first
+            }
+        ).containsExactly(5, 6, 7, 8)
     }
-
 }

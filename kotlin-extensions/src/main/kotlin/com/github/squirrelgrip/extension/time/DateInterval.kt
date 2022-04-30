@@ -9,7 +9,7 @@ import kotlin.collections.AbstractList
 class DateInterval private constructor(
     val start: LocalDate,
     val end: LocalDate
-): AbstractList<LocalDate>() {
+) : AbstractList<LocalDate>() {
     companion object {
         fun of(start: LocalDate, end: LocalDate): DateInterval =
             if (start.isEqualOrBefore(end)) DateInterval(
@@ -40,7 +40,7 @@ class DateInterval private constructor(
             if (toIndex > size) throw IndexOutOfBoundsException("toIndex = $toIndex")
             if (fromIndex > toIndex) throw IllegalArgumentException(
                 "fromIndex(" + fromIndex +
-                        ") > toIndex(" + toIndex + ")"
+                    ") > toIndex(" + toIndex + ")"
             )
         }
     }

@@ -56,8 +56,14 @@ class MapExtensionsTest {
         assertThat(mapOf("1" to null).flatten()).isEqualTo(mapOf("1" to null))
         assertThat(mapOf("1" to "AAA").flatten()).isEqualTo(mapOf("1" to "AAA"))
         assertThat(mapOf("1" to listOf("AAA", "BBB")).flatten()).isEqualTo(mapOf("1/0" to "AAA", "1/1" to "BBB"))
-        assertThat(mapOf("1" to listOf(mapOf("A" to "AAA", "B" to "BBB"), mapOf("C" to "CCC"))).flatten()).isEqualTo(mapOf("1/0/A" to "AAA", "1/0/B" to "BBB", "1/1/C" to "CCC"))
-        assertThat(mapOf("1" to mapOf("A" to "AAA", "B" to "BBB")).flatten()).isEqualTo(mapOf("1/A" to "AAA", "1/B" to "BBB"))
+        assertThat(mapOf("1" to listOf(mapOf("A" to "AAA", "B" to "BBB"), mapOf("C" to "CCC"))).flatten()).isEqualTo(
+            mapOf("1/0/A" to "AAA", "1/0/B" to "BBB", "1/1/C" to "CCC")
+        )
+        assertThat(mapOf("1" to mapOf("A" to "AAA", "B" to "BBB")).flatten()).isEqualTo(
+            mapOf(
+                "1/A" to "AAA",
+                "1/B" to "BBB"
+            )
+        )
     }
-
 }

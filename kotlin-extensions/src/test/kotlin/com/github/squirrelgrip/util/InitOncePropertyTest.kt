@@ -13,13 +13,13 @@ class InitOncePropertyTest {
 
     @Test
     fun readValueFailure() {
-        assertThrows(IllegalStateException::class.java) {  property }
+        assertThrows(IllegalStateException::class.java) { property }
     }
 
     @Test
     fun writeValueTwice() {
         property = "Test1"
-        assertThrows(IllegalStateException::class.java) {  property = "Test2" }
+        assertThrows(IllegalStateException::class.java) { property = "Test2" }
     }
 
     @Test
@@ -29,5 +29,4 @@ class InitOncePropertyTest {
         val data2 = property
         assertThat(data1).isSameAs(data2)
     }
-
 }

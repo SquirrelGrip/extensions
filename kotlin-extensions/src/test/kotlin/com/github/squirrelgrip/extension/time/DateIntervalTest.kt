@@ -229,5 +229,4 @@ class DateIntervalTest {
         assertThat(testSubject.first()).isEqualTo(testSubject.start)
         assertThat(testSubject.last()).isEqualTo(testSubject.end.minusDays(1))
     }
-
 }

@@ -226,5 +226,4 @@ class IntervalTest {
         assertThat(testSubject.contains(allAfterInterval.withStart(testSubject.end.plusMillis(1)))).isFalse()
         assertThat(testSubject.contains(allInterval)).isFalse()
     }
-
 }
