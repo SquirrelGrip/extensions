@@ -239,4 +239,10 @@ internal class DrainerCompilerTest {
             }
         ).containsExactly(5, 6, 7, 8)
     }
+
+   @Test
+    fun compile_GivenADollarSignVariable() {
+        val input = "\$"
+        val compile = testSubject.compile(input)
+    }
 }
