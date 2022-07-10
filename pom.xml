@@ -4,10 +4,10 @@
     <parent>
         <groupId>com.github.squirrelgrip</groupId>
         <artifactId>dependencies</artifactId>
-        <version>1.2.56</version>
+        <version>1.2.58</version>
     </parent>
     <artifactId>extensions</artifactId>
-    <version>1.2.14</version>
+    <version>1.2.15</version>
     <packaging>pom</packaging>
     <scm>
         <connection>scm:git:https://github.com/SquirrelGrip/extensions.git</connection>
