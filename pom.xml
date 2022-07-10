@@ -7,7 +7,7 @@
         <version>1.2.58</version>
     </parent>
     <artifactId>extensions</artifactId>
-    <version>1.2.15-SNAPSHOT</version>
+    <version>1.2.16-SNAPSHOT</version>
     <packaging>pom</packaging>
     <scm>
         <connection>scm:git:https://github.com/SquirrelGrip/extensions.git</connection>
