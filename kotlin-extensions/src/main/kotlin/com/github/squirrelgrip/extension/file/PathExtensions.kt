@@ -7,29 +7,29 @@ import java.nio.file.Path
 /**
  * Creates a PrintWriter for the given File
  */
-fun File.toPrintWriter() = this.toWriter().toPrintWriter()
+fun Path.toPrintWriter() = this.toWriter().toPrintWriter()
 
 /**
  * Creates a FileWriter for the given File
  */
-fun File.toWriter() = FileWriter(this)
+fun Path.toWriter() = FileWriter(this.toFile())
 
 /**
  * Creates a FileOutputStream for the given File
  */
-fun File.toOutputStream() = FileOutputStream(this)
+fun Path.toOutputStream() = FileOutputStream(this.toFile())
 
 /**
  * Creates a FileReader for the given File
  */
-fun File.toReader() = FileReader(this)
+fun Path.toReader() = FileReader(this.toFile())
 
 /**
  * Creates a FileInputStream for the given File
  */
-fun File.toInputStream() = FileInputStream(this)
+fun Path.toInputStream() = FileInputStream(this.toFile())
 
 /**
- * Created a File for a given String
+ * Created a Path for a given String
  */
-fun String.toFile() = File(this)
+fun String.toPath() = Path.of(this)
