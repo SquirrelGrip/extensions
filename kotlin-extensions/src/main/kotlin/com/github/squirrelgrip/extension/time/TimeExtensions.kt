@@ -1,7 +1,9 @@
 package com.github.squirrelgrip.extension.time
 
+import java.lang.Integer.min
 import java.time.*
 import java.time.ZoneOffset.UTC
+import java.time.chrono.ChronoLocalDate
 import java.time.chrono.ChronoLocalDateTime
 import java.time.chrono.ChronoZonedDateTime
 import java.time.temporal.Temporal
@@ -47,12 +49,21 @@ fun Instant.toLocalDateTime(zone: ZoneId = UTC): LocalDateTime = LocalDateTime.o
  */
 fun Instant.toLocalDate(zone: ZoneId = UTC): LocalDate = LocalDate.ofInstant(this, zone)
 
-fun Temporal.toInstant(zone: ZoneOffset = UTC): Instant {
+fun Temporal.toInstant(
+    zone: ZoneOffset = UTC,
+    atDate: LocalDate = LocalDate.now(zone),
+    atTime: LocalTime = LocalTime.now(zone)
+): Instant {
     return when (this) {
-        is ChronoLocalDateTime<*> -> toInstant(zone)
-        is ChronoZonedDateTime<*> -> toInstant()
-        is OffsetDateTime -> toInstant()
+        is ChronoLocalDate -> this.atTime(atTime).toInstant(zone)
+        is ChronoLocalDateTime<*> -> this.toInstant(zone)
+        is ChronoZonedDateTime<*> -> this.toInstant()
         is Instant -> this
+        is LocalTime -> this.atOffset(zone).toInstant(zone, atDate)
+        is OffsetDateTime -> this.toInstant()
+        is OffsetTime -> this.atDate(atDate).toInstant()
+        is Year -> this.atMonth(atDate.month).toInstant(zone, atDate, atTime)
+        is YearMonth -> this.atDay(min(this.lengthOfMonth(), atDate.dayOfMonth)).toInstant(zone, atDate, atTime)
         else -> throw UnsupportedOperationException()
     }
 }
