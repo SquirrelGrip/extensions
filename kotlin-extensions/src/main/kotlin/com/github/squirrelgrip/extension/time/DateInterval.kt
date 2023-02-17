@@ -138,10 +138,10 @@ class DateInterval private constructor(
     override fun hashCode(): Int = 31 * start.hashCode() + end.hashCode()
 
     override val size: Int
-        get() = toPeriod().days
+        get() = (end.toEpochDay() - start.toEpochDay()).toInt()
 
     override fun get(index: Int): LocalDate {
         Objects.checkIndex(index, size)
-        return start.plus(Period.ofDays(index))
+        return start.plusDays(index.toLong())
     }
 }
