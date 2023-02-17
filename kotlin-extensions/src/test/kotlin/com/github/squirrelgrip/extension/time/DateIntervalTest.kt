@@ -17,16 +17,21 @@ class DateIntervalTest {
         val period1Day = Period.ofDays(1)
         val period7Days = Period.ofDays(7)
         val period14Days = Period.ofDays(14)
+        val period180Days = Period.ofDays(180)
         val today = LocalDate.now()
         val future7Days = today.plus(period7Days)
         val future14Days = today.plus(period14Days)
+        val future180Days = today.plus(period180Days)
         val past7Days = today.minus(period7Days)
         val past14Days = today.minus(period14Days)
+        val past180Days = today.minus(period180Days)
         val testSubject = DateInterval.of(past7Days, future7Days)
         val allBeforeInterval = DateInterval.of(past14Days, past7Days)
         val allBetweenInterval = DateInterval.of(past7Days, future7Days)
         val allAfterInterval = DateInterval.of(future7Days, future14Days)
         val allInterval = DateInterval.of(past14Days, future14Days)
+        val allYearInterval = DateInterval.of(past180Days, future180Days)
+        val allFebInterval = DateInterval.of(LocalDate.of(2023, 2, 1), LocalDate.of(2023, 3, 1))
 
         @JvmStatic
         fun create(): Stream<DateInterval> {
@@ -54,6 +59,8 @@ class DateIntervalTest {
                 Arguments.of(testSubject, 14),
                 Arguments.of(allAfterInterval, 7),
                 Arguments.of(allInterval, 28),
+                Arguments.of(allFebInterval, 28),
+                Arguments.of(allYearInterval, 360),
             )
         }
     }
