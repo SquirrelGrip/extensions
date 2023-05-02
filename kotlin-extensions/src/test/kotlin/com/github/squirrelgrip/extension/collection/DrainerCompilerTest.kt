@@ -13,7 +13,7 @@ internal class DrainerCompilerTest {
     val setOfAA = setOf("AA")
     val setOfAB = setOf("AB")
     val setOfAC = setOf("AC")
-    val setOfAAAndAB = setOf("AA", "AB")
+    val setOfAAndAB = setOf("AA", "AB")
 
     val collection = listOf(
         1 to setOfA,
@@ -23,7 +23,7 @@ internal class DrainerCompilerTest {
         5 to setOfAA,
         6 to setOfAB,
         7 to setOfAC,
-        8 to setOfAAAndAB,
+        8 to setOfAAndAB,
     )
 
     @Test
@@ -147,6 +147,24 @@ internal class DrainerCompilerTest {
     }
 
     @Test
+    fun compile_GivenAOrNotA() {
+        val input = "A|!A"
+        val compile = testSubject.compile(input)
+        assertThat(compile.invoke(setOfA)).isTrue
+        assertThat(compile.invoke(setOfB)).isTrue
+        assertThat(compile.invoke(setOfC)).isTrue
+        assertThat(compile.invoke(setOfAAndB)).isTrue
+
+        assertThat(
+            collection.filter(input) {
+                it.second
+            }.map {
+                it.first
+            }
+        ).containsExactly(1, 2, 3, 4, 5, 6, 7, 8)
+    }
+
+    @Test
     fun compile_GivenOrNotAAsteriskVariable() {
         val input = "A|!A*"
         val compile = testSubject.compile(input)
@@ -229,7 +247,7 @@ internal class DrainerCompilerTest {
         assertThat(compile.invoke(setOfAA)).isTrue
         assertThat(compile.invoke(setOfAB)).isTrue
         assertThat(compile.invoke(setOfAC)).isTrue
-        assertThat(compile.invoke(setOfAAAndAB)).isTrue
+        assertThat(compile.invoke(setOfAAndAB)).isTrue
 
         assertThat(
             collection.filter(input) {
@@ -240,9 +258,39 @@ internal class DrainerCompilerTest {
         ).containsExactly(5, 6, 7, 8)
     }
 
-   @Test
+    @Test
     fun compile_GivenADollarSignVariable() {
         val input = "\$"
         val compile = testSubject.compile(input)
+    }
+
+    enum class TestEnum {
+        A, B, C
+    }
+
+    @Test
+    fun compile_GivenEnum() {
+        assertThat("A".filter<TestEnum>()).containsExactly(TestEnum.A)
+        assertThat("(A)".filter<TestEnum>()).containsExactly(TestEnum.A)
+        assertThat("!A".filter<TestEnum>()).containsExactly(TestEnum.B, TestEnum.C)
+        assertThat("!(A)".filter<TestEnum>()).containsExactly(TestEnum.B, TestEnum.C)
+        assertThat("!A|A".filter<TestEnum>()).containsExactly(TestEnum.A, TestEnum.B, TestEnum.C)
+        assertThat("!A&A".filter<TestEnum>()).isEmpty()
+        assertThat("(!A|B)|A".filter<TestEnum>()).containsExactly(TestEnum.A, TestEnum.B, TestEnum.C)
+        assertThat("X".filter<TestEnum>()).isEmpty()
+        assertThat("!X".filter<TestEnum>()).containsExactly(TestEnum.A, TestEnum.B, TestEnum.C)
+    }
+
+    @Test
+    fun compile_GivenEnumWithExtraExpressions() {
+        assertThat("A".filter<TestEnum>(mapOf("X" to "A|B"))).containsExactly(TestEnum.A)
+        assertThat("(A)".filter<TestEnum>(mapOf("X" to "A|B"))).containsExactly(TestEnum.A)
+        assertThat("!A".filter<TestEnum>(mapOf("X" to "A|B"))).containsExactly(TestEnum.B, TestEnum.C)
+        assertThat("!(A)".filter<TestEnum>(mapOf("X" to "A|B"))).containsExactly(TestEnum.B, TestEnum.C)
+        assertThat("!A|A".filter<TestEnum>(mapOf("X" to "A|B"))).containsExactly(TestEnum.A, TestEnum.B, TestEnum.C)
+        assertThat("!A&A".filter<TestEnum>(mapOf("X" to "A|B"))).isEmpty()
+        assertThat("(!A|B)|A".filter<TestEnum>(mapOf("X" to "A|B"))).containsExactly(TestEnum.A, TestEnum.B, TestEnum.C)
+        assertThat("X".filter<TestEnum>(mapOf("X" to "A|B"))).containsExactly(TestEnum.A, TestEnum.B)
+        assertThat("!X".filter<TestEnum>(mapOf("X" to "A|B"))).containsExactly(TestEnum.C)
     }
 }

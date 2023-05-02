@@ -1,12 +1,14 @@
 grammar Drainer;
 
 predicate: expression EOF;
-expression: expression AND expression # AndExpression
-   | expression OR expression # OrExpression
-   | NOT expression # NotExpression
-   | LPAREN expression RPAREN # ParenExpression
-   | variable # VariableExpression
-   | wildVariable # WildVariableExpression;
+expression:
+    expression AND expression # AndExpression
+  | expression OR expression # OrExpression
+  | LPAREN expression RPAREN # ParenExpression
+  | NOT variable # NotVariableExpression
+  | variable # VariableExpression
+  | NOT expression # NotExpression
+  | wildVariable # WildVariableExpression;
 variable: VARIABLE;
 wildVariable: WILD_VARIABLE;
 
