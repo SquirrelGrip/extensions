@@ -4,76 +4,101 @@ import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import java.util.*
 
-class DrainerCompiler {
-
-    companion object {
-        val visitor: DrainerBaseVisitor<(Collection<String>) -> Boolean> =
-            object : DrainerBaseVisitor<(Collection<String>) -> Boolean>() {
-                override fun visitAndExpression(ctx: DrainerParser.AndExpressionContext): (Collection<String>) -> Boolean =
-                    {
-                        visit(ctx.expression(0)).invoke(it) && visit(ctx.expression(1)).invoke(it)
-                    }
-
-                override fun visitOrExpression(ctx: DrainerParser.OrExpressionContext): (Collection<String>) -> Boolean =
-                    {
-                        visit(ctx.expression(0)).invoke(it) || visit(ctx.expression(1)).invoke(it)
-                    }
-
-                override fun visitNotExpression(ctx: DrainerParser.NotExpressionContext): (Collection<String>) -> Boolean =
-                    {
-                        !visit(ctx.expression()).invoke(it)
-                    }
-
-                override fun visitNotVariableExpression(ctx: DrainerParser.NotVariableExpressionContext): (Collection<String>) -> Boolean =
-                    {
-                        ctx.variable().text !in it
-                    }
-
-                override fun visitWildVariableExpression(ctx: DrainerParser.WildVariableExpressionContext): (Collection<String>) -> Boolean =
-                    {
-                        val regex = globToRegEx(ctx.wildVariable().text)
-                        it.any { value ->
-                            regex.matches(value)
-                        }
-                    }
-
-                override fun visitVariableExpression(ctx: DrainerParser.VariableExpressionContext): (Collection<String>) -> Boolean =
-                    {
-                        ctx.variable().text in it
-                    }
-
-                override fun visitParenExpression(ctx: DrainerParser.ParenExpressionContext): (Collection<String>) -> Boolean =
-                    {
-                        visit(ctx.expression()).invoke(it)
-                    }
-
-                override fun visitPredicate(ctx: DrainerParser.PredicateContext): (Collection<String>) -> Boolean = {
-                    visit(ctx.expression()).invoke(it)
-                }
-            }
-
-        fun globToRegEx(glob: String): Regex {
-            var out: String = "^"
-            glob.forEach { c ->
-                out += when (c) {
-                    '*' -> ".*"
-                    '?' -> '.'
-                    '.' -> "\\."
-                    else -> c
-                }
-            }
-            out += '$'
-            return out.toRegex()
+object StringDrainerCompiler : DrainerCompiler<Collection<String>>() {
+    override fun matches(
+        glob: String,
+        it: Collection<String>
+    ): Boolean {
+        val regex = globToRegEx(glob)
+        return it.any { value ->
+            regex.matches(value)
         }
     }
 
-    inline fun compile(input: String): (Collection<String>) -> Boolean =
-        visitor.visit(DrainerParser(CommonTokenStream(DrainerLexer(CharStreams.fromString(input)))).predicate())
+    override fun contains(
+        value: String,
+        collection: Collection<String>
+    ): Boolean =
+        value in collection
+}
+
+abstract class DrainerCompiler<T>() {
+    val visitor: DrainerBaseVisitor<(T) -> Boolean> =
+        object : DrainerBaseVisitor<(T) -> Boolean>() {
+            override fun visitAndExpression(ctx: DrainerParser.AndExpressionContext): (T) -> Boolean =
+                {
+                    visit(ctx.expression(0)).invoke(it) && visit(ctx.expression(1)).invoke(it)
+                }
+
+            override fun visitOrExpression(ctx: DrainerParser.OrExpressionContext): (T) -> Boolean =
+                {
+                    visit(ctx.expression(0)).invoke(it) || visit(ctx.expression(1)).invoke(it)
+                }
+
+            override fun visitNotExpression(ctx: DrainerParser.NotExpressionContext): (T) -> Boolean =
+                {
+                    !visit(ctx.expression()).invoke(it)
+                }
+
+            override fun visitVariableExpression(ctx: DrainerParser.VariableExpressionContext): (T) -> Boolean =
+                {
+                    contains(ctx.variable().text, it)
+                }
+
+            override fun visitWildVariableExpression(ctx: DrainerParser.WildVariableExpressionContext): (T) -> Boolean =
+                {
+                    matches(ctx.wildVariable().text, it)
+                }
+
+            override fun visitParenExpression(ctx: DrainerParser.ParenExpressionContext): (T) -> Boolean =
+                {
+                    visit(ctx.expression()).invoke(it)
+                }
+
+            override fun visitPredicate(ctx: DrainerParser.PredicateContext): (T) -> Boolean = {
+                visit(ctx.expression()).invoke(it)
+            }
+        }
+
+    abstract fun matches(
+        regExString: String,
+        it: T
+    ): Boolean
+
+    abstract fun contains(
+        value: String,
+        collection: T
+    ): Boolean
+
+    fun globToRegEx(glob: String): Regex {
+        var out: String = "^"
+        glob.forEach { c ->
+            out += when (c) {
+                '*' -> ".*"
+                '?' -> '.'
+                '.' -> "\\."
+                else -> c
+            }
+        }
+        out += '$'
+        return out.toRegex()
+    }
+
+    inline fun compile(expression: String): (T) -> Boolean =
+        visitor.visit(
+            DrainerParser(
+                CommonTokenStream(
+                    DrainerLexer(
+                        CharStreams.fromString(expression)
+                    )
+                )
+            ).predicate()
+        )
 }
 
 inline fun <reified E : Enum<E>> String?.filter(): Set<E> =
     this?.let {
-        val predicate = DrainerCompiler().compile(this)
+        val predicate = StringDrainerCompiler.compile(this)
         val filter = enumValues<E>().toList().filter {
             predicate.invoke(setOf(it.name))
         }
@@ -92,7 +117,7 @@ inline fun <reified E : Enum<E>> String?.filter(extra: Map<String, String>): Enu
         }
     }.toEnumSet()
 
-inline fun <reified E: Enum<E>> Collection<E>?.toEnumSet(): EnumSet<E> =
+inline fun <reified E : Enum<E>> Collection<E>?.toEnumSet(): EnumSet<E> =
     this?.let {
         if (it.isEmpty()) {
             EnumSet.noneOf(E::class.java)
@@ -102,21 +127,21 @@ inline fun <reified E: Enum<E>> Collection<E>?.toEnumSet(): EnumSet<E> =
     } ?: EnumSet.noneOf(E::class.java)
 
 fun <T> Collection<T>.filter(expression: String, extractor: (T) -> Collection<String>): List<T> =
-    DrainerCompiler().compile(expression).let { predicate ->
+    StringDrainerCompiler.compile(expression).let { predicate ->
         this.filter {
             predicate.invoke(extractor.invoke(it))
         }
     }
 
 fun <T> Array<T>.filter(expression: String, extractor: (T) -> Collection<String>): List<T> =
-    DrainerCompiler().compile(expression).let { predicate ->
+    StringDrainerCompiler.compile(expression).let { predicate ->
         this.filter {
             predicate.invoke(extractor.invoke(it))
         }
     }
 
 fun Collection<Collection<String>>.filter(expression: String): List<Collection<String>> {
-    val predicate = DrainerCompiler().compile(expression)
+    val predicate = StringDrainerCompiler.compile(expression)
     return this.filter {
         predicate.invoke(it)
     }

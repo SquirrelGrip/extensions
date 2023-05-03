@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 internal class DrainerCompilerTest {
 
-    val testSubject = DrainerCompiler()
+    val testSubject = StringDrainerCompiler
     val setOfA = setOf("A")
     val setOfB = setOf("B")
     val setOfC = setOf("C")
