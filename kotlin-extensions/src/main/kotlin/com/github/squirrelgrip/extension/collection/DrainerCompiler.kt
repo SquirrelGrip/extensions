@@ -117,26 +117,17 @@ inline fun <reified E : Enum<E>> String?.filter(extra: Map<String, String>): Enu
         }
     }.toEnumSet()
 
-inline fun <reified E : Enum<E>> Collection<E>?.toEnumSet(): EnumSet<E> =
-    this?.let {
-        if (it.isEmpty()) {
-            EnumSet.noneOf(E::class.java)
-        } else {
-            EnumSet.copyOf(it)
-        }
-    } ?: EnumSet.noneOf(E::class.java)
-
-fun <T> Collection<T>.filter(expression: String, extractor: (T) -> Collection<String>): List<T> =
+fun <T> Collection<T>.filter(expression: String, converter: (T) -> Collection<String>): List<T> =
     StringDrainerCompiler.compile(expression).let { predicate ->
         this.filter {
-            predicate.invoke(extractor.invoke(it))
+            predicate.invoke(converter.invoke(it))
         }
     }
 
-fun <T> Array<T>.filter(expression: String, extractor: (T) -> Collection<String>): List<T> =
+fun <T> Array<T>.filter(expression: String, converter: (T) -> Collection<String>): List<T> =
     StringDrainerCompiler.compile(expression).let { predicate ->
         this.filter {
-            predicate.invoke(extractor.invoke(it))
+            predicate.invoke(converter.invoke(it))
         }
     }
 
@@ -146,3 +137,10 @@ fun Collection<Collection<String>>.filter(expression: String): List<Collection<S
         predicate.invoke(it)
     }
 }
+
+inline fun <reified E : Enum<E>> Collection<E>?.toEnumSet(): EnumSet<E> =
+    if (this.isNullOrEmpty()) {
+        EnumSet.noneOf(E::class.java)
+    } else {
+        EnumSet.copyOf(this)
+    }
