@@ -261,7 +261,7 @@ internal class DrainerCompilerTest {
     @Test
     fun compile_GivenADollarSignVariable() {
         val input = "\$"
-        val compile = testSubject.compile(input)
+        testSubject.compile(input)
     }
 
     enum class TestEnum {

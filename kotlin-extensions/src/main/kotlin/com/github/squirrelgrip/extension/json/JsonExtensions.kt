@@ -10,6 +10,8 @@ import com.github.squirrelgrip.util.notCatching
 import java.io.*
 import java.net.URL
 import java.nio.file.Path
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 
 /**
  * Converts Any to a JSON String representation
@@ -48,6 +50,38 @@ inline fun <reified T> DataInput.toInstanceList(): List<T> = Json.objectMapper.r
 inline fun <reified T> JsonParser.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
 inline fun <reified T> File.toInstanceList(): List<T> = Json.objectMapper.readValue(this, listType<T>())
 inline fun <reified T> Path.toInstanceList(): List<T> = Json.objectMapper.readValue(this.toFile(), listType<T>())
+
+inline fun <reified T> String.toJsonStream(parallel: Boolean = false): Stream<T> = this.toJsonParser().toJsonStream<T>(parallel)
+inline fun <reified T> InputStream.toJsonStream(parallel: Boolean = false): Stream<T> = this.toJsonParser().toJsonStream<T>(parallel)
+inline fun <reified T> Reader.toJsonStream(parallel: Boolean = false): Stream<T> = this.toJsonParser().toJsonStream<T>(parallel)
+inline fun <reified T> URL.toJsonStream(parallel: Boolean = false): Stream<T> = this.toJsonParser().toJsonStream<T>(parallel)
+inline fun <reified T> ByteArray.toJsonStream(parallel: Boolean = false): Stream<T> = this.toJsonParser().toJsonStream<T>(parallel)
+inline fun <reified T> ByteArray.toJsonStream(offset: Int, length: Int, parallel: Boolean = false): Stream<T> = this.toJsonParser(offset, length).toJsonStream<T>(parallel)
+inline fun <reified T> File.toJsonStream(parallel: Boolean = false): Stream<T> = this.toJsonParser().toJsonStream<T>(parallel)
+inline fun <reified T> Path.toJsonStream(parallel: Boolean = false): Stream<T> = this.toJsonParser().toJsonStream<T>(parallel)
+
+inline fun <reified T> String.toJsonSequence(): Sequence<T> = this.toJsonParser().toJsonSequence<T>()
+inline fun <reified T> InputStream.toJsonSequence(): Sequence<T> = this.toJsonParser().toJsonSequence<T>()
+inline fun <reified T> Reader.toJsonSequence(): Sequence<T> = this.toJsonParser().toJsonSequence<T>()
+inline fun <reified T> URL.toJsonSequence(): Sequence<T> = this.toJsonParser().toJsonSequence<T>()
+inline fun <reified T> ByteArray.toJsonSequence(): Sequence<T> = this.toJsonParser().toJsonSequence<T>()
+inline fun <reified T> ByteArray.toJsonStream(offset: Int, length: Int): Sequence<T> = this.toJsonParser(offset, length).toJsonSequence<T>()
+inline fun <reified T> File.toJsonSequence(): Sequence<T> = this.toJsonParser().toJsonSequence<T>()
+inline fun <reified T> Path.toJsonSequence(): Sequence<T> = this.toJsonParser().toJsonSequence<T>()
+
+inline fun <reified T> JsonParser.toJsonStream(parallel: Boolean = false): Stream<T> =
+    StreamSupport.stream(JsonSpliterator(this, T::class.java), parallel)
+inline fun <reified T> JsonParser.toJsonSequence(): Sequence<T> =
+    JsonSequence(this, T::class.java)
+
+fun String.toJsonParser(): JsonParser = Json.objectMapper.createParser(this)
+fun InputStream.toJsonParser(): JsonParser = Json.objectMapper.createParser(this)
+fun Reader.toJsonParser(): JsonParser = Json.objectMapper.createParser(this)
+fun URL.toJsonParser(): JsonParser = Json.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(): JsonParser = Json.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(offset: Int, length: Int): JsonParser = Json.objectMapper.createParser(this, offset, length)
+fun File.toJsonParser(): JsonParser = Json.objectMapper.createParser(this)
+fun Path.toJsonParser(): JsonParser = Json.objectMapper.createParser(this.toFile())
 
 fun String.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
 fun InputStream.toJsonNode(): JsonNode = Json.objectMapper.readTree(this)
