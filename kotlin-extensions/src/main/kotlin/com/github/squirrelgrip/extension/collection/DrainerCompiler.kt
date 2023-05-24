@@ -6,10 +6,10 @@ import java.util.*
 
 object StringDrainerCompiler : DrainerCompiler<Collection<String>>() {
     override fun matches(
-        glob: String,
+        regExString: String,
         it: Collection<String>
     ): Boolean {
-        val regex = globToRegEx(glob)
+        val regex = globToRegEx(regExString)
         return it.any { value ->
             regex.matches(value)
         }
@@ -84,7 +84,7 @@ abstract class DrainerCompiler<T>() {
         return out.toRegex()
     }
 
-    inline fun compile(expression: String): (T) -> Boolean =
+    fun compile(expression: String): (T) -> Boolean =
         visitor.visit(
             DrainerParser(
                 CommonTokenStream(

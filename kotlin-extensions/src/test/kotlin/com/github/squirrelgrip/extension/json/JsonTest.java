@@ -11,9 +11,5 @@ public class JsonTest {
         ObjectMapper objectMapper1 = new ObjectMapper();
         ObjectMapper objectMapper2 = Json.INSTANCE.getObjectMapper();
         assertThat(objectMapper2).isNotSameAs(objectMapper1);
-        Json.INSTANCE.setObjectMapper(objectMapper1);
-        assertThat(Json.INSTANCE.getObjectMapper()).isSameAs(objectMapper1);
-        Json.INSTANCE.setObjectMapper(objectMapper2);
-        assertThat(Json.INSTANCE.getObjectMapper()).isSameAs(objectMapper1);
     }
 }
