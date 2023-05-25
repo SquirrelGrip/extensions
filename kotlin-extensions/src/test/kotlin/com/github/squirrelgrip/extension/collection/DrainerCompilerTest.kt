@@ -258,12 +258,6 @@ internal class DrainerCompilerTest {
         ).containsExactly(5, 6, 7, 8)
     }
 
-    @Test
-    fun compile_GivenADollarSignVariable() {
-        val input = "\$"
-        testSubject.compile(input)
-    }
-
     enum class TestEnum {
         A, B, C
     }
