@@ -20,7 +20,7 @@ class CsvExtensionTest {
 
     @Test
     fun `toCsv List`() {
-        assertThat(listOf(Sample(), Sample()).toCsv()).isEqualTo("""
+        assertThat(listOf(Sample(), Sample()).toCsv<Sample>()).isEqualTo("""
             l,s,v
             1;AAA,"A Simple String",0
             

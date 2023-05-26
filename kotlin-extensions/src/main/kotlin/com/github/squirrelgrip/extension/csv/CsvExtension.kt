@@ -31,6 +31,12 @@ fun Any.toCsv(path: Path, schema: CsvSchema = Csv.getSchema(this.javaClass)) = C
 fun Any.toCsv(outputStream: OutputStream, schema: CsvSchema = Csv.getSchema(this.javaClass)) = Csv.objectWriter(schema).writeValue(outputStream, this)
 fun Any.toCsv(writer: Writer, schema: CsvSchema = Csv.getSchema(this.javaClass)) = Csv.objectWriter(schema).writeValue(writer, this)
 fun Any.toCsv(dataOutput: DataOutput, schema: CsvSchema = Csv.getSchema(this.javaClass)) = Csv.objectWriter(schema).writeValue(dataOutput, this)
+inline fun <reified T> Iterable<T>.toCsv(schema: CsvSchema = Csv.getSchema(T::class.java)): String = Csv.objectWriter(schema).writeValueAsString(this)
+inline fun <reified T> Iterable<T>.toCsv(file: File, schema: CsvSchema = Csv.getSchema(T::class.java)) = Csv.objectWriter(schema).writeValue(file, this)
+inline fun <reified T> Iterable<T>.toCsv(path: Path, schema: CsvSchema = Csv.getSchema(T::class.java)) = Csv.objectWriter(schema).writeValue(path.toFile(), this)
+inline fun <reified T> Iterable<T>.toCsv(outputStream: OutputStream, schema: CsvSchema = Csv.getSchema(T::class.java)) = Csv.objectWriter(schema).writeValue(outputStream, this)
+inline fun <reified T> Iterable<T>.toCsv(writer: Writer, schema: CsvSchema = Csv.getSchema(T::class.java)) = Csv.objectWriter(schema).writeValue(writer, this)
+inline fun <reified T> Iterable<T>.toCsv(dataOutput: DataOutput, schema: CsvSchema = Csv.getSchema(T::class.java)) = Csv.objectWriter(schema).writeValue(dataOutput, this)
 
 inline fun <reified T> String.toInstance(schema: CsvSchema = Csv.getSchema(T::class.java)): T = Csv.objectReader<T>(schema).readValue(this, T::class.java)
 inline fun <reified T> InputStream.toInstance(schema: CsvSchema = Csv.getSchema(T::class.java)): T = Csv.objectReader<T>(schema).readValue(this, T::class.java)
