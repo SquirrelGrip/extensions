@@ -137,8 +137,8 @@ abstract class Compiler<T> {
         extra: Map<String, String> = emptyMap(),
         converter: (V) -> T
     ): List<V> =
-        expression.prepare(extra)?.let { expression ->
-            compile(expression).let { predicate ->
+        expression.prepare(extra)?.let { preparedExpression ->
+            compile(preparedExpression).let { predicate ->
                 collection.filter {
                     predicate.invoke(converter.invoke(it))
                 }
@@ -151,8 +151,8 @@ abstract class Compiler<T> {
         extra: Map<String, String> = emptyMap(),
         transform: (V) -> T
     ): List<V> =
-        expression.prepare(extra)?.let { expression ->
-            compile(expression).let { predicate ->
+        expression.prepare(extra)?.let { preparedExpression ->
+            compile(preparedExpression).let { predicate ->
                 array.filter {
                     predicate.invoke(transform.invoke(it))
                 }
@@ -165,8 +165,8 @@ abstract class Compiler<T> {
         extra: Map<String, String> = emptyMap(),
         transform: (V) -> T
     ): Sequence<V> =
-        expression.prepare(extra)?.let { expression ->
-            compile(expression).let { predicate ->
+        expression.prepare(extra)?.let { preparedExpression ->
+            compile(preparedExpression).let { predicate ->
                 sequence.filter {
                     predicate.invoke(transform.invoke(it))
                 }

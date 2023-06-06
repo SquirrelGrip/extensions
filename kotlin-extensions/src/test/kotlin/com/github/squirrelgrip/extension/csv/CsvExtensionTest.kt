@@ -23,7 +23,8 @@ class CsvExtensionTest {
         assertThat(listOf(Sample(), Sample()).toCsv<Sample>()).isEqualTo("""
             l,s,v
             1;AAA,"A Simple String",0
-            
+            1;AAA,"A Simple String",0
+    
             """.trimIndent())
     }
 }
