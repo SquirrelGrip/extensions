@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
+import com.github.squirrelgrip.extension.json.Json
 import com.github.squirrelgrip.extension.json.toJsonNode
 import com.github.squirrelgrip.util.format.DataFormat
 import com.github.squirrelgrip.util.format.ObjectMapperFactory
@@ -58,3 +59,12 @@ fun ByteArray.isXml(offset: Int, length: Int): Boolean = notCatching { this.toJs
 fun JsonParser.isXml(): Boolean = notCatching { this.toJsonNode() }
 fun File.isXml(): Boolean = notCatching { this.toJsonNode() }
 fun Path.isXml(): Boolean = notCatching { this.toFile().toJsonNode() }
+
+fun String.toJsonParser(): JsonParser = Xml.objectMapper.createParser(this)
+fun InputStream.toJsonParser(): JsonParser = Xml.objectMapper.createParser(this)
+fun Reader.toJsonParser(): JsonParser = Xml.objectMapper.createParser(this)
+fun URL.toJsonParser(): JsonParser = Xml.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(): JsonParser = Xml.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(offset: Int, length: Int): JsonParser = Xml.objectMapper.createParser(this, offset, length)
+fun File.toJsonParser(): JsonParser = Xml.objectMapper.createParser(this)
+fun Path.toJsonParser(): JsonParser = Xml.objectMapper.createParser(this.toFile())

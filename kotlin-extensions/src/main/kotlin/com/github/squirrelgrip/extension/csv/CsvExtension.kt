@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import com.github.squirrelgrip.extension.protobuf.Protobuf
+import com.github.squirrelgrip.extension.xml.Xml
 import com.github.squirrelgrip.util.format.ObjectMapperFactory
 import com.github.squirrelgrip.util.format.SchemaDataFormat
 import com.github.squirrelgrip.util.notCatching
@@ -77,3 +78,12 @@ fun ByteArray.isCsv(offset: Int, length: Int): Boolean = notCatching { this.toJs
 fun JsonParser.isCsv(): Boolean = notCatching { this.toJsonNode() }
 fun File.isCsv(): Boolean = notCatching { this.toJsonNode() }
 fun Path.isCsv(): Boolean = notCatching { this.toFile().toJsonNode() }
+
+fun String.toJsonParser(): JsonParser = Csv.objectMapper.createParser(this)
+fun InputStream.toJsonParser(): JsonParser = Csv.objectMapper.createParser(this)
+fun Reader.toJsonParser(): JsonParser = Csv.objectMapper.createParser(this)
+fun URL.toJsonParser(): JsonParser = Csv.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(): JsonParser = Csv.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(offset: Int, length: Int): JsonParser = Csv.objectMapper.createParser(this, offset, length)
+fun File.toJsonParser(): JsonParser = Csv.objectMapper.createParser(this)
+fun Path.toJsonParser(): JsonParser = Csv.objectMapper.createParser(this.toFile())

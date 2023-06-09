@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsSchema
+import com.github.squirrelgrip.extension.json.Json
 import com.github.squirrelgrip.extension.json.toJsonNode
 import com.github.squirrelgrip.util.format.ObjectMapperFactory
 import com.github.squirrelgrip.util.format.SchemaDataFormat
@@ -61,3 +62,12 @@ fun ByteArray.isJavaProps(offset: Int, length: Int): Boolean = notCatching { thi
 fun JsonParser.isJavaProps(): Boolean = notCatching { this.toJsonNode() }
 fun File.isJavaProps(): Boolean = notCatching { this.toJsonNode() }
 fun Path.isJavaProps(): Boolean = notCatching { this.toFile().toJsonNode() }
+
+fun String.toJsonParser(): JsonParser = JavaProps.objectMapper.createParser(this)
+fun InputStream.toJsonParser(): JsonParser = JavaProps.objectMapper.createParser(this)
+fun Reader.toJsonParser(): JsonParser = JavaProps.objectMapper.createParser(this)
+fun URL.toJsonParser(): JsonParser = JavaProps.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(): JsonParser = JavaProps.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(offset: Int, length: Int): JsonParser = JavaProps.objectMapper.createParser(this, offset, length)
+fun File.toJsonParser(): JsonParser = JavaProps.objectMapper.createParser(this)
+fun Path.toJsonParser(): JsonParser = JavaProps.objectMapper.createParser(this.toFile())
