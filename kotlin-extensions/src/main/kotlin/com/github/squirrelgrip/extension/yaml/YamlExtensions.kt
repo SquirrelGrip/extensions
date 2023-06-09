@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import com.github.squirrelgrip.extension.json.toJsonNode
+import com.github.squirrelgrip.extension.xml.Xml
 import com.github.squirrelgrip.util.format.DataFormat
 import com.github.squirrelgrip.util.format.ObjectMapperFactory
 import com.github.squirrelgrip.util.notCatching
@@ -57,4 +58,13 @@ fun ByteArray.toJsonNode(offset: Int, length: Int): JsonNode = Yaml.objectMapper
 fun JsonParser.toJsonNode(): JsonNode = Yaml.objectMapper.readTree(this)
 fun File.toJsonNode(): JsonNode = Yaml.objectMapper.readTree(this)
 fun Path.toJsonNode(): JsonNode = Yaml.objectMapper.readTree(this.toFile())
+
+fun String.toJsonParser(): JsonParser = Yaml.objectMapper.createParser(this)
+fun InputStream.toJsonParser(): JsonParser = Yaml.objectMapper.createParser(this)
+fun Reader.toJsonParser(): JsonParser = Yaml.objectMapper.createParser(this)
+fun URL.toJsonParser(): JsonParser = Yaml.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(): JsonParser = Yaml.objectMapper.createParser(this)
+fun ByteArray.toJsonParser(offset: Int, length: Int): JsonParser = Yaml.objectMapper.createParser(this, offset, length)
+fun File.toJsonParser(): JsonParser = Yaml.objectMapper.createParser(this)
+fun Path.toJsonParser(): JsonParser = Yaml.objectMapper.createParser(this.toFile())
 
